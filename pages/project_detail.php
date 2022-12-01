@@ -75,7 +75,6 @@ foreach ($result as $key => $record) {
   <tr>
 		<td>{$record["title"]}</td>
     <td>{$record["content"]}</td>
-    <td>{$record["deadline"]}</td>
     <td>{$record["created_at"]}</td>
     <td>{$record["updated_at"]}</td>
   </tr>
@@ -120,12 +119,14 @@ foreach ($result as $key => $record) {
 	</table>
 
 	<p>開発の進捗</p>
-	<a href="">進捗を追加する</a>
+	<form action="./issue_add.php" method="GET">
+		<input type="text" name="project_id" value="<?= $project_id ?>" hidden>
+		<button>進捗を追加する</button>
+	</form>
 	<table>
 		<thead>
 			<td>タイトル</td>
 			<td>内容</td>
-			<td>期限</td>
 			<td>作成日</td>
 			<td>更新日</td>
 		</thead>

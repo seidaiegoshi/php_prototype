@@ -1,5 +1,5 @@
 <?php
-
+$project_id  = $_GET["project_id"];
 ?>
 
 <!DOCTYPE html>
@@ -18,8 +18,8 @@
 	<form action="./issue_create.php" method="POST">
 		<fieldset>
 			<legend>進捗を追加する</legend>
-			<input type="number" name="company_id" value="" hidden />
-			<div>product name: <input type="text" name="title" /></div>
+			<input type="number" name="project_id" value="<?= $project_id ?>" hidden />
+			<div>title: <input type="text" name="title" /></div>
 			<div>content: <input type="text" name="content" /></div>
 			<div>
 				<button>submit</button>
