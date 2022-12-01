@@ -39,7 +39,7 @@ try {
 
 
 // SQL作成&実行
-$sql = 'INSERT INTO projects (project_id, company_id, category_id, title,content,created_at,updated_at,deadline,like_count,userid) VALUES (NULL, :company_id, :category_id, :title, :content, now(), now(), :deadline, :like_count, :userid);
+$sql = 'INSERT INTO projects (project_id, company_id, category_id, title,content,created_at,updated_at,deadline,like_count) VALUES (NULL, :company_id, :category_id, :title, :content, now(), now(), :deadline, :like_count );
 SELECT AUTO_INCREMENT FROM information_schema.tables
 WHERE table_schema = php_ploto and table_name = projects;';
 
@@ -53,7 +53,6 @@ $stmt->bindValue(':title', $title, PDO::PARAM_STR);
 $stmt->bindValue(':content', $content, PDO::PARAM_STR);
 $stmt->bindValue(':deadline', $deadline, PDO::PARAM_STR);
 $stmt->bindValue(':like_count', 0, PDO::PARAM_STR);
-$stmt->bindValue(':userid', 0, PDO::PARAM_STR);
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {
