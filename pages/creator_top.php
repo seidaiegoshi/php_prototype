@@ -8,7 +8,7 @@
 		<!-- <link rel="stylesheet" type="text/css" href="./css/style.css"> -->
 	</head>
 	<body>
-		<a href="./project_add.html">新商品を作る</a>
+		<a href="./project_add.html?project_id=21">新商品を作る</a>
 		<!-- <a href="">プロフィール</a> -->
 		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 	</body>

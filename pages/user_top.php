@@ -1,13 +1,5 @@
 <?php
 // var_dump($_GET["project_id"]);
-if (
-	!isset($_GET["project_id"]) || $_GET["project_id"] == ""
-) {
-	header("Location:./login.html");
-}
-
-$project_id = $_GET["project_id"];
-
 
 // 各種項目設定
 $database_name = "php_ploto";
@@ -26,7 +18,7 @@ try {
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
-$sql = "SELECT * FROM projects WHERE project_id=$project_id";
+$sql = "SELECT * FROM projects";
 
 $stmt = $pdo->prepare($sql);
 
@@ -53,45 +45,10 @@ foreach ($result as $key => $record) {
     <td>{$record["content"]}</td>
     <td>{$record["deadline"]}</td>
     <td>{$record["like_count"]}</td>
-    <td>{$record["created_at"]}</td>
     <td>{$record["updated_at"]}</td>
   </tr>
   ";
 }
-
-// isseusテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
-$sql = "SELECT * FROM issues WHERE project_id=$project_id";
-
-$stmt = $pdo->prepare($sql);
-
-// SQL実行（実行に失敗すると `sql error ...` が出力される）
-try {
-	$status = $stmt->execute();
-	// var_dump($status);
-} catch (PDOException $e) {
-	echo json_encode(["sql error" => "{$e->getMessage()}"]);
-	exit();
-}
-
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$issues_html_element = "";
-
-foreach ($result as $key => $record) {
-	# code...
-	$issues_html_element .= "
-  <tr>
-		<td>{$record["title"]}</td>
-    <td>{$record["content"]}</td>
-    <td>{$record["created_at"]}</td>
-    <td>{$record["updated_at"]}</td>
-  </tr>
-  ";
-}
-
-// var_dump($output);
-
-
 
 ?>
 
@@ -102,11 +59,14 @@ foreach ($result as $key => $record) {
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Document</title>
+	<title>user top</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
 </head>
 
 <body>
+	<a href="">プロフィール</a>
+	<a href="./creator_top.php?project_id=21">商品を作る</a>
+
 	<p>開発中の商品</p>
 	<table>
 		<thead>
@@ -116,28 +76,10 @@ foreach ($result as $key => $record) {
 			<td>内容</td>
 			<td>期限</td>
 			<td>イイネ数</td>
-			<td>作成日</td>
 			<td>更新日</td>
 		</thead>
 		<tbody>
 			<?= $project_abstract_html_element ?>
-		</tbody>
-	</table>
-
-	<p>開発の進捗</p>
-	<form action="./issue_add.php" method="GET">
-		<input type="text" name="project_id" value="<?= $project_id ?>" hidden>
-		<button>進捗を追加する</button>
-	</form>
-	<table>
-		<thead>
-			<td>タイトル</td>
-			<td>内容</td>
-			<td>作成日</td>
-			<td>更新日</td>
-		</thead>
-		<tbody>
-			<?= $issues_html_element ?>
 		</tbody>
 	</table>
 
