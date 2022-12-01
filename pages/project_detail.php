@@ -57,6 +57,7 @@ foreach ($result as $key => $record) {
     <td>{$record["updated_at"]}</td>
   </tr>
   ";
+	$company_id = $record["company_id"];
 }
 
 // isseusテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
@@ -105,6 +106,9 @@ foreach ($result as $key => $record) {
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
 </head>
+<header>
+	<a href="./creator_top.php?company_id=<?= $company_id ?>">HOME</a>
+</header>
 
 <body>
 	<p>開発中の商品</p>

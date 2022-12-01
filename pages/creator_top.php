@@ -43,22 +43,32 @@ $project_abstract_html_element = "";
 
 foreach ($result as $key => $record) {
 	# code...
+	// $project_abstract_html_element .= "
+	// <tr>
+	// <td>{$record["project_id"]}</td>
+	// <td>{$record["category_id"]}</td>
+	// 	<td>
+	// 		<a href='./project_detail.php?project_id={$record["project_id"]}'>
+	// 			{$record["title"]}
+	// 		</a>
+	// 	</td>
+	//   <td>{$record["content"]}</td>
+	//   <td>{$record["deadline"]}</td>
+	//   <td>{$record["like_count"]}</td>
+	//   <td>{$record["created_at"]}</td>
+	//   <td>{$record["updated_at"]}</td>
+	// </tr>
+
+	// ";
 	$project_abstract_html_element .= "
-  <tr>
-	<td>{$record["project_id"]}</td>
-	<td>{$record["category_id"]}</td>
-		<td>
-			<a href='./project_detail.php?project_id={$record["project_id"]}'>
-				{$record["title"]}
-			</a>
-		</td>
-    <td>{$record["content"]}</td>
-    <td>{$record["deadline"]}</td>
-    <td>{$record["like_count"]}</td>
-    <td>{$record["created_at"]}</td>
-    <td>{$record["updated_at"]}</td>
-  </tr>
-  ";
+		<a class='card' href='./project_detail.php?project_id={$record["project_id"]}'>
+			<div class='title'>{$record["title"]}</div>
+			<div class='deadline'>{$record["deadline"]}</div>
+			<div class='content'>{$record["content"]}</div>
+			<div class='updated_at'>{$record["updated_at"]}</div>
+			<div class='like_count'>{$record["like_count"]}</div>
+		</a>
+		";
 }
 
 
@@ -77,7 +87,7 @@ foreach ($result as $key => $record) {
 <body>
 	<a href="./project_add.php?company_id=1">新商品を作る</a>
 	<p>開発中の商品</p>
-	<table>
+	<!-- <table>
 		<thead>
 			<td>新商品ID</td>
 			<td>カテゴリID</td>
@@ -91,7 +101,10 @@ foreach ($result as $key => $record) {
 		<tbody>
 			<?= $project_abstract_html_element ?>
 		</tbody>
-	</table>
+	</table> -->
+	<section class="cards">
+		<?= $project_abstract_html_element ?>
+	</section>
 	<!-- <a href="">プロフィール</a> -->
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 </body>

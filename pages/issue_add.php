@@ -13,6 +13,7 @@ $project_id  = $_GET["project_id"];
 	<!-- <link rel="stylesheet" type="text/css" href="./css/style.css"> -->
 </head>
 
+
 <body>
 	進捗を追加する画面
 	<form action="./issue_create.php" method="POST">
