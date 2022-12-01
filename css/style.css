@@ -1,0 +1,63 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+table {
+	border-spacing: 10px;
+	border-collapse: collapse;
+	border: solid 1px #333;
+}
+table td {
+	border: solid 1px #333;
+	/* text-align: center; */
+	padding: 16px;
+}
+table thead {
+	text-align: center;
+}
+header {
+	text-decoration: none;
+}
+
+/* カード */
+section.cards {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+a.card {
+	width: 300px;
+	height: 300px;
+	border: solid 1px #333;
+	margin: 16px;
+	padding: 16px;
+	position: relative;
+	text-decoration: none;
+	color: #333;
+}
+
+.card .title {
+	font-weight: bold;
+}
+
+.card .deadline {
+	font-size: 0.8rem;
+	text-align: right;
+}
+
+.card .updated_at {
+	font-size: 0.5rem;
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+}
+
+.card .like_count {
+	font-size: 0.5rem;
+	position: absolute;
+	bottom: 8px;
+	right: 8px;
+}
