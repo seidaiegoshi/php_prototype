@@ -65,7 +65,7 @@ foreach ($result as $key => $record) {
 
 <body>
 	<a href="">プロフィール</a>
-	<a href="./creator_top.php?project_id=21">商品を作る</a>
+	<a href="./creator_top.php?company_id=1">商品を作る</a>
 
 	<p>開発中の商品</p>
 	<table>
