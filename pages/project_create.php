@@ -1,4 +1,6 @@
 <?php
+include("./functions/db.php");
+
 // var_dump($_POST);
 
 // 値がちゃんとあるかチェック。
@@ -18,22 +20,9 @@ $title = $_POST["title"];
 $content = $_POST["content"];
 $deadline = $_POST["deadline"];
 
-// DB接続
 
-// 各種項目設定
-$database_name = "php_prototype";
-$dbn = "mysql:dbname={$database_name};charset=utf8mb4;port=3306;host=localhost";
-$user = 'root';
-$pwd = '';
-
-// DB接続
-try {
-  $pdo = new PDO($dbn, $user, $pwd);
-  // exit("ok");
-} catch (PDOException $e) {
-  echo json_encode(["db error" => "{$e->getMessage()}"]);
-  exit();
-}
+//DB接続
+$pdo = connect_to_db();
 
 // 「dbError:...」が表示されたらdb接続でエラーが発生していることがわかる．
 

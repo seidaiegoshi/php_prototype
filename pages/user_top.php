@@ -1,20 +1,12 @@
 <?php
+include("./functions/db.php");
+
 // var_dump($_GET["project_id"]);
 
-// 各種項目設定
-$database_name = "php_prototype";
-$dbn = "mysql:dbname={$database_name};charset=utf8mb4;port=3306;host=localhost";
-$user = 'root';
-$pwd = '';
 
-// DB接続
-try {
-	$pdo = new PDO($dbn, $user, $pwd);
-	// exit("ok");
-} catch (PDOException $e) {
-	echo json_encode(["db error" => "{$e->getMessage()}"]);
-	exit();
-}
+
+//DB接続
+$pdo = connect_to_db();
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
@@ -30,6 +22,8 @@ try {
 	echo json_encode(["sql error" => "{$e->getMessage()}"]);
 	exit();
 }
+
+
 
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
