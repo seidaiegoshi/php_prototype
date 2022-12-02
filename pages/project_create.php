@@ -21,7 +21,7 @@ $deadline = $_POST["deadline"];
 // DB接続
 
 // 各種項目設定
-$database_name = "php_ploto";
+$database_name = "php_prototype";
 $dbn = "mysql:dbname={$database_name};charset=utf8mb4;port=3306;host=localhost";
 $user = 'root';
 $pwd = '';
@@ -39,9 +39,7 @@ try {
 
 
 // SQL作成&実行
-$sql = 'INSERT INTO projects (project_id, company_id, category_id, title,content,created_at,updated_at,deadline,like_count) VALUES (NULL, :company_id, :category_id, :title, :content, now(), now(), :deadline, :like_count );
-SELECT AUTO_INCREMENT FROM information_schema.tables
-WHERE table_schema = php_ploto and table_name = projects;';
+$sql = 'INSERT INTO projects (project_id, company_id, category_id, title,content,created_at,updated_at,deadline,like_count) VALUES (NULL, :company_id, :category_id, :title, :content, now(), now(), :deadline, :like_count );';
 
 
 $stmt = $pdo->prepare($sql);

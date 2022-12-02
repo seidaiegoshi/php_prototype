@@ -2,7 +2,7 @@
 // var_dump($_GET["project_id"]);
 
 // 各種項目設定
-$database_name = "php_ploto";
+$database_name = "php_prototype";
 $dbn = "mysql:dbname={$database_name};charset=utf8mb4;port=3306;host=localhost";
 $user = 'root';
 $pwd = '';
