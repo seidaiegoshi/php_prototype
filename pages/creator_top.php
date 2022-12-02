@@ -84,6 +84,10 @@ foreach ($result as $key => $record) {
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
 </head>
 
+<header>
+	<a href="./../index.html">TOP</a>
+</header>
+
 <body>
 	<a href="./project_add.php?company_id=1">新商品を作る</a>
 	<p>開発中の商品</p>

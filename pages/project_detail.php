@@ -107,7 +107,8 @@ foreach ($result as $key => $record) {
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
 </head>
 <header>
-	<a href="./creator_top.php?company_id=<?= $company_id ?>">HOME</a>
+	<a href="./../index.html">TOP</a>
+	<a href="./creator_top.php?company_id=<?= $company_id ?>">company top</a>
 </header>
 
 <body>

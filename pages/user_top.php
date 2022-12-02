@@ -63,6 +63,10 @@ foreach ($result as $key => $record) {
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
 </head>
 
+<header>
+	<a href="./../index.html">TOP</a>
+</header>
+
 <body>
 	<a href="">プロフィール</a>
 	<a href="./creator_top.php?company_id=1">商品を作る</a>
