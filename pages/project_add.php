@@ -1,10 +1,10 @@
 <?php
 if (
-	!isset($_GET["company_id"]) || $_GET["company_id"] == ""
+	!isset($_GET["team_id"]) || $_GET["team_id"] == ""
 ) {
 	header("Location:./login.html");
 }
-$company_id = $_GET["company_id"];
+$team_id = $_GET["team_id"];
 
 ?>
 
@@ -19,14 +19,14 @@ $company_id = $_GET["company_id"];
 	<link rel="stylesheet" type="text/css" href="./../css/style.css" />
 </head>
 <header>
-	<a href="./creator_top.php?company_id=<?= $company_id ?>">company top</a>
+	<a href="./creator_top.php?team_id=<?= $team_id ?>">company top</a>
 </header>
 
 <body>
 	<form action="./project_create.php" method="POST">
 		<fieldset>
 			<legend>新商品作成</legend>
-			<input type="number" name="company_id" value="<?= $company_id ?>" hidden />
+			<input type="number" name="team_id" value="<?= $team_id ?>" hidden />
 			<div>type: <input type="number" name="category_id" /></div>
 			<div>product name: <input type="text" name="title" /></div>
 			<div>content: <input type="text" name="content" /></div>

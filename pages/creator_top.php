@@ -3,11 +3,11 @@ include("./functions/db.php");
 
 
 if (
-	!isset($_GET["company_id"]) || $_GET["company_id"] == ""
+	!isset($_GET["team_id"]) || $_GET["team_id"] == ""
 ) {
 	header("Location:./login.html");
 }
-$company_id = $_GET["company_id"];
+$team_id = $_GET["team_id"];
 
 //DB接続
 $pdo = connect_to_db();
@@ -15,7 +15,7 @@ $pdo = connect_to_db();
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
-$sql = "SELECT * FROM projects WHERE company_id=$company_id";
+$sql = "SELECT * FROM projects WHERE team_id=$team_id";
 
 $stmt = $pdo->prepare($sql);
 
@@ -80,7 +80,7 @@ foreach ($result as $key => $record) {
 </header>
 
 <body>
-	<a href="./project_add.php?company_id=1">新商品を作る</a>
+	<a href="./project_add.php?team_id=1">新商品を作る</a>
 	<p>開発中の商品</p>
 	<!-- <table>
 		<thead>

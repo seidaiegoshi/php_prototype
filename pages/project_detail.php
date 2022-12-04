@@ -37,7 +37,7 @@ foreach ($result as $key => $record) {
 	# code...
 	$project_abstract_html_element .= "
   <tr>
-	<td>{$record["company_id"]}</td>
+	<td>{$record["team_id"]}</td>
 	<td>{$record["category_id"]}</td>
 		<td>{$record["title"]}</td>
     <td>{$record["content"]}</td>
@@ -47,7 +47,7 @@ foreach ($result as $key => $record) {
     <td>{$record["updated_at"]}</td>
   </tr>
   ";
-	$company_id = $record["company_id"];
+	$team_id = $record["team_id"];
 }
 
 // isseusテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
@@ -98,7 +98,7 @@ foreach ($result as $key => $record) {
 </head>
 <header>
 	<a href="./../index.html">TOP</a>
-	<a href="./creator_top.php?company_id=<?= $company_id ?>">company top</a>
+	<a href="./creator_top.php?team_id=<?= $team_id ?>">company top</a>
 </header>
 
 <body>

@@ -41,7 +41,7 @@ foreach ($result as $key => $record) {
 	# code...
 	$project_abstract_html_element .= "
   <tr>
-	<td>{$record["company_id"]}</td>
+	<td>{$record["team_id"]}</td>
 	<td>{$record["category_id"]}</td>
 		<td>{$record["title"]}</td>
     <td>{$record["content"]}</td>
@@ -67,7 +67,7 @@ foreach ($result as $key => $record) {
 
 <header>
 	<a href="./../index.html">TOP</a>
-	<a href="./creator_top.php?company_id=1">商品を作る</a>
+	<a href="./creator_top.php?team_id=1">商品を作る</a>
 	<a href="">プロフィール</a>
 </header>
 
