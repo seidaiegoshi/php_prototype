@@ -67,11 +67,12 @@ foreach ($result as $key => $record) {
 
 <header>
 	<a href="./../index.html">TOP</a>
+	<a href="./creator_top.php?company_id=1">商品を作る</a>
+	<a href="">プロフィール</a>
 </header>
 
 <body>
-	<a href="">プロフィール</a>
-	<a href="./creator_top.php?company_id=1">商品を作る</a>
+
 	<div>
 		<div>
 			<p>商品を探す</p>
