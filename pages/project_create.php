@@ -6,7 +6,6 @@ include("./functions/db.php");
 // 値がちゃんとあるかチェック。
 if (
   !isset($_POST["team_id"]) || $_POST["team_id"] == "" ||
-  !isset($_POST["category_id"]) || $_POST["category_id"] == "" ||
   !isset($_POST["title"]) || $_POST["title"] == "" ||
   !isset($_POST["content"]) || $_POST["content"] == "" ||
   !isset($_POST["deadline"]) || $_POST["deadline"] == ""
@@ -15,7 +14,6 @@ if (
 }
 
 $team_id = $_POST["team_id"];
-$category_id = $_POST["category_id"];
 $title = $_POST["title"];
 $content = $_POST["content"];
 $deadline = $_POST["deadline"];
@@ -28,14 +26,13 @@ $pdo = connect_to_db();
 
 
 // SQL作成&実行
-$sql = 'INSERT INTO projects (project_id, team_id, category_id, title,content,created_at,updated_at,deadline,like_count) VALUES (NULL, :team_id, :category_id, :title, :content, now(), now(), :deadline, :like_count );';
+$sql = 'INSERT INTO projects (project_id, team_id, title,content,created_at,updated_at,deadline,like_count) VALUES (NULL, :team_id,  :title, :content, now(), now(), :deadline, :like_count );';
 
 
 $stmt = $pdo->prepare($sql);
 
 // バインド変数を設定
 $stmt->bindValue(':team_id', $team_id, PDO::PARAM_STR);
-$stmt->bindValue(':category_id', 0, PDO::PARAM_STR);
 $stmt->bindValue(':title', $title, PDO::PARAM_STR);
 $stmt->bindValue(':content', $content, PDO::PARAM_STR);
 $stmt->bindValue(':deadline', $deadline, PDO::PARAM_STR);

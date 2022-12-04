@@ -38,7 +38,6 @@ foreach ($result as $key => $record) {
 	$project_abstract_html_element .= "
   <tr>
 	<td>{$record["team_id"]}</td>
-	<td>{$record["category_id"]}</td>
 		<td>{$record["title"]}</td>
     <td>{$record["content"]}</td>
     <td>{$record["deadline"]}</td>

@@ -27,7 +27,6 @@ $team_id = $_GET["team_id"];
 		<fieldset>
 			<legend>新商品作成</legend>
 			<input type="number" name="team_id" value="<?= $team_id ?>" hidden />
-			<div>type: <input type="number" name="category_id" /></div>
 			<div>product name: <input type="text" name="title" /></div>
 			<div>content: <input type="text" name="content" /></div>
 			<div>deadline: <input type="date" name="deadline" /></div>

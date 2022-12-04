@@ -37,7 +37,6 @@ foreach ($result as $key => $record) {
 	// $project_abstract_html_element .= "
 	// <tr>
 	// <td>{$record["project_id"]}</td>
-	// <td>{$record["category_id"]}</td>
 	// 	<td>
 	// 		<a href='./project_detail.php?project_id={$record["project_id"]}'>
 	// 			{$record["title"]}
