@@ -23,9 +23,10 @@ $team_id = $_GET["team_id"];
 </header>
 
 <body>
-	<form action="./project_create.php" method="POST">
+	<form action="./project_create.php" method="POST" enctype="multipart/form-data">
 		<fieldset>
 			<legend>新商品作成</legend>
+			<input type="file" name="image">
 			<input type="number" name="team_id" value="<?= $team_id ?>" hidden />
 			<div>product name: <input type="text" name="title" /></div>
 			<div>content: <input type="text" name="content" /></div>

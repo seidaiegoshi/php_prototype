@@ -1,6 +1,30 @@
 <?php
 include("./functions/db.php");
 
+//画像の処理
+if (!isset($_POST["image"]) || $_POST["image"] == "") {
+
+
+  if (!empty($_FILES)) {
+    // $_FILES['image']['name']もとのファイルの名前
+    // $_FILES['image']['tmp_name']サーバーにある一時ファイルの名前
+    $filename = uniqid() . $_FILES['image']['name'];
+    $uploaded_path = './../data/images/' . $filename;
+
+    $result = move_uploaded_file($_FILES['image']['tmp_name'], $uploaded_path);
+
+    if ($result) {
+      $MSG = 'アップロード成功！';
+      $img_path = $uploaded_path;
+    } else {
+      $MSG = 'アップロード失敗！エラーコード：' . $_FILES['image']['error'];
+    }
+  } else {
+    $MSG = '画像を選択してください';
+  }
+  echo $MSG;
+}
+
 // var_dump($_POST);
 
 // 値がちゃんとあるかチェック。
@@ -26,7 +50,7 @@ $pdo = connect_to_db();
 
 
 // SQL作成&実行
-$sql = 'INSERT INTO projects (project_id, team_id, title,content,created_at,updated_at,deadline,like_count) VALUES (NULL, :team_id,  :title, :content, now(), now(), :deadline, :like_count );';
+$sql = 'INSERT INTO projects (project_id, team_id, title, image_url, content,created_at,updated_at,deadline,like_count) VALUES (NULL, :team_id,  :title, :image_url, :content, now(), now(), :deadline, :like_count );';
 
 
 $stmt = $pdo->prepare($sql);
@@ -34,6 +58,7 @@ $stmt = $pdo->prepare($sql);
 // バインド変数を設定
 $stmt->bindValue(':team_id', $team_id, PDO::PARAM_STR);
 $stmt->bindValue(':title', $title, PDO::PARAM_STR);
+$stmt->bindValue(':image_url', $img_path, PDO::PARAM_STR);
 $stmt->bindValue(':content', $content, PDO::PARAM_STR);
 $stmt->bindValue(':deadline', $deadline, PDO::PARAM_STR);
 $stmt->bindValue(':like_count', 0, PDO::PARAM_STR);
