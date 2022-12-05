@@ -40,25 +40,29 @@ $project_abstract_html_element = "";
 foreach ($result as $key => $record) {
 	# code...
 	$project_abstract_html_element .= "
-	<a href='./project_detail.php?project_id={$record["project_id"]}'>
   <div class='magazine'>
-		<div class='image'>
-			<img src='{$record["image_url"]}'>
+		<a class='project' href='./project_detail.php?project_id={$record["project_id"]}'>
+				<div class='image'>";
+	if ($record["image_url"] !== 0) {
+		$project_abstract_html_element .= "	
+					<img src='{$record["image_url"]}'>";
+	}
+	$project_abstract_html_element .= "
+					</div>
+				<div class='article'>
+					<div class='title'>
+						{$record["title"]}
+					</div>
+					<div class='content'>
+						{$record["content"]}
+					</div>
+					<div class='counter'>
+						{$record["like_count"]}
+						{$record["updated_at"]}
+					</div>
+				</div>
+			</a>	
 		</div>
-		<div class='article'>
-			<div class='title'>
-				{$record["title"]}
-			</div>
-			<div class='content'>
-				{$record["content"]}
-			</div>
-			<div class='counter'>
-				{$record["like_count"]}
-				{$record["updated_at"]}
-			</div>
-		</div>
-		</div>
-		</a>	
   ";
 }
 
