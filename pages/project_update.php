@@ -89,14 +89,6 @@ if (!empty($image_url)) {
     unlink($old_image_url);
   }
 }
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-echo "<pre>";
-// var_dump($result);
-// var_dump($stmt);
-$project_id = $pdo->lastInsertId();
-// echo "test";
-echo "</pre>";
-// exit();
 
 
 

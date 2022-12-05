@@ -1,6 +1,13 @@
 <?php
 include("./functions/db.php");
 
+// 値がちゃんとあるかチェック。
+if (
+  !isset($_POST["project_id"]) || $_POST["project_id"] == ""
+) {
+  exit("ParamError");
+}
+
 $project_id = $_POST["project_id"];
 
 
