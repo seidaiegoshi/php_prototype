@@ -38,7 +38,7 @@ $project_abstract_html_element = "";
 foreach ($result as $key => $record) {
 	$project_abstract_html_element .= "
   <div class='magazine'>
-	<a href='./project_detail.php?project_id={$record["project_id"]}'>
+	<a class='project' href='./project_detail.php?project_id={$record["project_id"]}'>
 		<div class='image'>";
 	if ($record["image_url"] !== 0) {
 		$project_abstract_html_element .= "	
@@ -59,7 +59,26 @@ foreach ($result as $key => $record) {
 			</div>
 		</div>
 		</a>	
+
+		<div class='edit'>
+			<div>
+				<div class='project_edit'>
+				<form action='./project_edit.php' method='POST'>
+				<input type='hidden' name='project_id' value='{$record["project_id"]}'>
+				<button>
+				EDIT
+				</button>
+				</form>
+				</div>
+				<div class='project_delete'>
+				<a href='./project_delete.php?project_id={$record["project_id"]}'>
+					delete
+					</a>
+				</div>
+			</div>
 		</div>
+		</div>
+
   ";
 }
 

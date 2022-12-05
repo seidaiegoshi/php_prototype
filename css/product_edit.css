@@ -1,0 +1,19 @@
+img {
+	width: 300px;
+	height: auto;
+	max-height: 300px;
+}
+
+input#upload_image {
+	display: none;
+}
+
+label#upload_image_label {
+	border: solid 1px #333;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+label#upload_image_label:hover {
+	background-color: skyblue;
+}

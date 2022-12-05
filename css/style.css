@@ -149,17 +149,20 @@ section {
 .magazine {
 	width: 100%;
 
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	margin-bottom: 16px;
-	border: solid 1px #999;
-	border-radius: 5px;
 }
-.magazine a {
+.magazine a.project {
 	text-decoration: none;
 	color: #111;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px;
+	padding: 8px;
+	border: solid 1px #999;
+	border-radius: 5px;
 }
 
 section.search img {
