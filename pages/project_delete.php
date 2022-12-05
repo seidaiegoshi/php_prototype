@@ -2,6 +2,13 @@
 include("./functions/db.php");
 
 var_dump($_GET);
+
+if (
+  !isset($_GET["project_id"]) || $_GET["project_id"] == ""
+) {
+  exit("ParamError");
+}
+
 $project_id = $_GET['project_id'];
 
 $pdo = connect_to_db();

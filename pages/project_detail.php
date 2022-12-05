@@ -90,12 +90,16 @@ foreach ($result as $key => $record) {
     	<div>{$record["content"]}</div>
 		</div>
 		<div class='edit'>
-			<form action='./issue_edit.php' method='POST'>
-				<input type='hidden' name='issue_id' value='{$record["issue_id"]}'>
-				<button>EDIT</button>
-			</form>
+			<div>	
+				<form action='./issue_edit.php' method='POST'>
+					<input type='hidden' name='issue_id' value='{$record["issue_id"]}'>
+					<button>EDIT</button>
+				</form>
+			</div>
+			<div class='delete'>
+				<a href='./issue_delete.php?project_id={$project_id}&issue_id={$record["issue_id"]}'>delete</a>
+			</div>
 		</div>
-		<div class='delete'><a href=''>delete</a></div>
   </div>
   ";
 }
