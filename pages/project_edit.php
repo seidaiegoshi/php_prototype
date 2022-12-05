@@ -59,7 +59,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
         <input type="text" name="title" value="<?= $result["title"] ?>" />
       </div>
       <div>content:
-        <input type="text" name="content" value="<?= $result["content"] ?>" />
+        <textarea type="text" name="content"><?= $result["content"] ?></textarea>
       </div>
       <div>deadline:
         <input type="date" name="deadline" value="<?= $result["deadline"] ?>" />
