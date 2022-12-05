@@ -78,7 +78,6 @@ foreach ($result as $key => $record) {
 			</div>
 		</div>
 		</div>
-
   ";
 }
 

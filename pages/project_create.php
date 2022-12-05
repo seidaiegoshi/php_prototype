@@ -15,7 +15,7 @@ if (!isset($_POST["image"]) || $_POST["image"] == "") {
 
     if ($result) {
       $MSG = 'アップロード成功！';
-      $img_path = $uploaded_path;
+      $image_url = $uploaded_path;
     } else {
       $MSG = 'アップロード失敗！エラーコード：' . $_FILES['image']['error'];
     }
@@ -46,19 +46,26 @@ $deadline = $_POST["deadline"];
 //DB接続
 $pdo = connect_to_db();
 
-// 「dbError:...」が表示されたらdb接続でエラーが発生していることがわかる．
-
-
 // SQL作成&実行
-$sql = 'INSERT INTO projects (project_id, team_id, title, image_url, content,created_at,updated_at,deadline,like_count) VALUES (NULL, :team_id,  :title, :image_url, :content, now(), now(), :deadline, :like_count );';
+if (!empty($image_url)) {
+  // 画像あるなら
+  $sql = 'INSERT INTO projects (project_id, team_id, title, image_url, content,created_at,updated_at,deadline,like_count) VALUES (NULL, :team_id,  :title, :image_url, :content, now(), now(), :deadline, :like_count );';
+  $stmt = $pdo->prepare($sql);
+
+  // バインド変数を設定
+  $stmt->bindValue(':image_url', $image_url, PDO::PARAM_STR);
+} else {
+  // 画像ないなら
+  $sql = 'INSERT INTO projects (project_id, team_id, title, image_url, content,created_at,updated_at,deadline,like_count) VALUES (NULL, :team_id,  :title, NULL, :content, now(), now(), :deadline, :like_count );';
+  $stmt = $pdo->prepare($sql);
+}
 
 
-$stmt = $pdo->prepare($sql);
+
 
 // バインド変数を設定
 $stmt->bindValue(':team_id', $team_id, PDO::PARAM_STR);
 $stmt->bindValue(':title', $title, PDO::PARAM_STR);
-$stmt->bindValue(':image_url', $img_path, PDO::PARAM_STR);
 $stmt->bindValue(':content', $content, PDO::PARAM_STR);
 $stmt->bindValue(':deadline', $deadline, PDO::PARAM_STR);
 $stmt->bindValue(':like_count', 0, PDO::PARAM_STR);
