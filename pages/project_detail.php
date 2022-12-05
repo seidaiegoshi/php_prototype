@@ -154,14 +154,13 @@ foreach ($result as $key => $record) {
 		<h2>開発の進捗</h2>
 		<div class="cheer_area">
 			<div class="milestone_area">
+				<div>
+					<?= $issues_html_element ?>
+				</div>
 				<form action="./issue_add.php" method="GET">
 					<input type="text" name="project_id" value="<?= $project_id ?>" hidden>
 					<button>進捗を追加する</button>
 				</form>
-
-				<div>
-					<?= $issues_html_element ?>
-				</div>
 			</div>
 			<div class="comment_area">
 				user comment area
