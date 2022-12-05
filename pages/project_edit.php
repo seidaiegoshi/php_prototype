@@ -49,6 +49,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
   <form action="./project_update.php" method="POST" enctype="multipart/form-data">
     <fieldset>
       <legend>プロジェクトの編集</legend>
+      <input type="hidden" name="old_image_url" value="<?= $result["image_url"] ?>">
       <input type="hidden" name="project_id" value="<?= $project_id ?>">
       <img id="project_image" src="<?= $result["image_url"] ?>" alt="project image">
       <label for="upload_image" id="upload_image_label">写真を変更</label>

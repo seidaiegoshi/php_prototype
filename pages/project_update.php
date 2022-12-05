@@ -30,6 +30,7 @@ if (!isset($_POST["image"]) || $_POST["image"] == "") {
 
 // 値がちゃんとあるかチェック。
 if (
+  !isset($_POST["old_image_url"]) || $_POST["old_image_url"] == "" ||
   !isset($_POST["project_id"]) || $_POST["project_id"] == "" ||
   !isset($_POST["title"]) || $_POST["title"] == "" ||
   !isset($_POST["content"]) || $_POST["content"] == "" ||
@@ -38,11 +39,12 @@ if (
   exit("ParamError");
 }
 
+
 $project_id = $_POST["project_id"];
 $title = $_POST["title"];
 $content = $_POST["content"];
 $deadline = $_POST["deadline"];
-
+$old_image_url = $_POST["old_image_url"];
 
 
 //DB接続
@@ -81,6 +83,11 @@ try {
 } catch (PDOException $e) {
   echo json_encode(["sql error" => "{$e->getMessage()}"]);
   exit();
+}
+if (!empty($image_url)) {
+  if (file_exists($old_image_url)) {
+    unlink($old_image_url);
+  }
 }
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo "<pre>";
