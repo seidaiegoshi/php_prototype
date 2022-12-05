@@ -5,9 +5,12 @@ include("./functions/db.php");
 if (
 	!isset($_GET["team_id"]) || $_GET["team_id"] == ""
 ) {
-	header("Location:./login.html");
+	// header("Location:./login.html");
+	$team_id  = 1;
+} else {
+
+	$team_id = $_GET["team_id"];
 }
-$team_id = $_GET["team_id"];
 
 //DB接続
 $pdo = connect_to_db();
@@ -34,21 +37,30 @@ $project_abstract_html_element = "";
 
 foreach ($result as $key => $record) {
 	$project_abstract_html_element .= "
-		<a class='card' href='./project_detail.php?project_id={$record["project_id"]}'>
-			<div class='title'>{$record["title"]}</div>
-			<div class='deadline'>{$record["deadline"]}</div>";
-
-	if ($record["image_url"] == 0) {
-		$project_abstract_html_element .= "	<div class='image'></div>";
-	} else {
-		$project_abstract_html_element .= "	<div class='image'><img src='{$record["image_url"]}'></div>";
+  <div class='magazine'>
+	<a href='./project_detail.php?project_id={$record["project_id"]}'>
+		<div class='image'>";
+	if ($record["image_url"] !== 0) {
+		$project_abstract_html_element .= "	
+			<img src='{$record["image_url"]}'>";
 	}
 	$project_abstract_html_element .= "
-			<div class='content'>{$record["content"]}</div>
-			<div class='updated_at'>{$record["updated_at"]}</div>
-			<div class='like_count'>{$record["like_count"]}</div>
-		</a>
-		";
+		</div>
+		<div class='article'>
+			<div class='title'>
+				{$record["title"]}
+			</div>
+			<div class='content'>
+				{$record["content"]}
+			</div>
+			<div class='counter'>
+				{$record["like_count"]}
+				{$record["updated_at"]}
+			</div>
+		</div>
+		</a>	
+		</div>
+  ";
 }
 
 ?>
@@ -61,11 +73,12 @@ foreach ($result as $key => $record) {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
+	<link rel="stylesheet" type="text/css" href="./../css/creator_top.css">
 </head>
 
 <header>
 	<div class="header_top">
-		<a href="./../index.html">
+		<a href="./user_top.php">
 			<div>
 				TOP
 			</div>
@@ -78,7 +91,7 @@ foreach ($result as $key => $record) {
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="">
+		<a href="./creator_top.php">
 			<div>
 				プロフィール
 			</div>
@@ -88,23 +101,9 @@ foreach ($result as $key => $record) {
 
 <body>
 	<a href="./project_add.php?team_id=1">新商品を作る</a>
-	<p>開発中の商品</p>
-	<!-- <table>
-		<thead>
-			<td>新商品ID</td>
-			<td>カテゴリID</td>
-			<td>タイトル</td>
-			<td>内容</td>
-			<td>期限</td>
-			<td>イイネ数</td>
-			<td>作成日</td>
-			<td>更新日</td>
-		</thead>
-		<tbody>
-			<?= $project_abstract_html_element ?>
-		</tbody>
-	</table> -->
-	<section class="cards">
+
+	<section class="search">
+		<h1>開発中の商品</h1>
 		<?= $project_abstract_html_element ?>
 	</section>
 	<!-- <a href="">プロフィール</a> -->

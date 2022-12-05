@@ -20,7 +20,7 @@ $team_id = $_GET["team_id"];
 </head>
 <header>
 	<div class="header_top">
-		<a href="./../index.html">
+		<a href="./user_top.php">
 			<div>
 				TOP
 			</div>
@@ -33,7 +33,7 @@ $team_id = $_GET["team_id"];
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="">
+		<a href="./creator_top.php">
 			<div>
 				プロフィール
 			</div>

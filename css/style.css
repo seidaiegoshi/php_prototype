@@ -43,6 +43,9 @@ header {
 	padding: 10px;
 	border-radius: 5px;
 }
+.header_search input:focus {
+	outline: solid 2px #999;
+}
 .header_search button {
 	border: solid 1px #333;
 	border-radius: 5px;
@@ -135,4 +138,41 @@ a.card {
 .card img {
 	width: 100%;
 	max-height: 100%;
+}
+
+/* マガジンビュー */
+section {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.magazine {
+	width: 100%;
+
+	margin-bottom: 16px;
+	border: solid 1px #999;
+	border-radius: 5px;
+}
+.magazine a {
+	text-decoration: none;
+	color: #111;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+}
+
+section.search img {
+	width: 100%;
+	border-radius: 5px;
+}
+.image {
+	width: 20%;
+}
+
+.article {
+	width: 75%;
+}
+.title {
+	font-weight: bold;
 }

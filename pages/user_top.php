@@ -73,12 +73,12 @@ foreach ($result as $key => $record) {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>user top</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
-	<link rel="stylesheet" type="text/css" href="./../css/user_top.css">
+	<!-- <link rel="stylesheet" type="text/css" href="./../css/user_top.css"> -->
 </head>
 
 <header>
 	<div class="header_top">
-		<a href="./../index.html">
+		<a href="./user_top.php">
 			<div>
 				TOP
 			</div>
@@ -91,7 +91,7 @@ foreach ($result as $key => $record) {
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="">
+		<a href="./creator_top.php">
 			<div>
 				プロフィール
 			</div>
