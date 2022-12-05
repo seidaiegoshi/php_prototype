@@ -163,6 +163,7 @@ section {
 	padding: 8px;
 	border: solid 1px #999;
 	border-radius: 5px;
+	width: 100%;
 }
 
 .magazine img {
