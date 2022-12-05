@@ -1,26 +1,27 @@
 <?php
-// var_dump($_GET["project_id"]);
 
-// 各種項目設定
-$database_name = "php_ploto";
-$dbn = "mysql:dbname={$database_name};charset=utf8mb4;port=3306;host=localhost";
-$user = 'root';
-$pwd = '';
+include("./functions/db.php");
 
-// DB接続
-try {
-	$pdo = new PDO($dbn, $user, $pwd);
-	// exit("ok");
-} catch (PDOException $e) {
-	echo json_encode(["db error" => "{$e->getMessage()}"]);
-	exit();
-}
+//DB接続
+$pdo = connect_to_db();
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
-$sql = "SELECT * FROM projects";
+if (
+	!isset($_GET["search"]) || $_GET["search"] == ""
+) {
+	$sql = "SELECT * FROM projects";
 
-$stmt = $pdo->prepare($sql);
+	$stmt = $pdo->prepare($sql);
+} else {
+	$search_word = $_GET["search"];
+	$sql = "SELECT * FROM projects 
+	WHERE title LIKE :search_word OR content LIKE :search_word";
+
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(':search_word', "%" . $search_word . "%", PDO::PARAM_STR);
+}
+
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {
@@ -31,22 +32,36 @@ try {
 	exit();
 }
 
+
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $project_abstract_html_element = "";
 
 foreach ($result as $key => $record) {
-	# code...
 	$project_abstract_html_element .= "
-  <tr>
-	<td>{$record["company_id"]}</td>
-	<td>{$record["category_id"]}</td>
-		<td>{$record["title"]}</td>
-    <td>{$record["content"]}</td>
-    <td>{$record["deadline"]}</td>
-    <td>{$record["like_count"]}</td>
-    <td>{$record["updated_at"]}</td>
-  </tr>
+  <div class='magazine'>
+		<a class='project' href='./project_detail.php?project_id={$record["project_id"]}'>
+				<div class='image'>";
+	if ($record["image_url"] !== 0) {
+		$project_abstract_html_element .= "	
+					<img src='{$record["image_url"]}'>";
+	}
+	$project_abstract_html_element .= "
+					</div>
+				<div class='article'>
+					<div class='title'>
+						{$record["title"]}
+					</div>
+					<div class='content'>
+						{$record["content"]}
+					</div>
+					<div class='counter'>
+						{$record["like_count"]}
+						{$record["updated_at"]}
+					</div>
+				</div>
+			</a>	
+		</div>
   ";
 }
 
@@ -61,28 +76,40 @@ foreach ($result as $key => $record) {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>user top</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
+	<!-- <link rel="stylesheet" type="text/css" href="./../css/user_top.css"> -->
 </head>
 
+<header>
+	<div class="header_top">
+		<a href="./user_top.php">
+			<div>
+				TOP
+			</div>
+		</a>
+	</div>
+	<div class="header_search">
+		<form action="./user_top.php" method="GET">
+			<input type="text" name="search">
+			<button>検索</button>
+		</form>
+	</div>
+	<div class="header_profile">
+		<a href="./creator_top.php">
+			<div>
+				プロフィール
+			</div>
+		</a>
+	</div>
+</header>
+
 <body>
-	<a href="">プロフィール</a>
-	<a href="./creator_top.php?company_id=1">商品を作る</a>
+	<section class="search">
+		<h1>試作中のプロダクトを探す</h1>
+		<?= $project_abstract_html_element ?>
+	</section>
+	<section class="favorite">
 
-	<p>開発中の商品</p>
-	<table>
-		<thead>
-			<td>会社ID</td>
-			<td>カテゴリID</td>
-			<td>タイトル</td>
-			<td>内容</td>
-			<td>期限</td>
-			<td>イイネ数</td>
-			<td>更新日</td>
-		</thead>
-		<tbody>
-			<?= $project_abstract_html_element ?>
-		</tbody>
-	</table>
-
+	</section>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 </body>
 

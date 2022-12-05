@@ -1,30 +1,24 @@
 <?php
+include("./functions/db.php");
+
+
 if (
-	!isset($_GET["company_id"]) || $_GET["company_id"] == ""
+	!isset($_GET["team_id"]) || $_GET["team_id"] == ""
 ) {
-	header("Location:./login.html");
+	// header("Location:./login.html");
+	$team_id  = 1;
+} else {
+
+	$team_id = $_GET["team_id"];
 }
-$company_id = $_GET["company_id"];
 
+//DB接続
+$pdo = connect_to_db();
 
-// 各種項目設定
-$database_name = "php_ploto";
-$dbn = "mysql:dbname={$database_name};charset=utf8mb4;port=3306;host=localhost";
-$user = 'root';
-$pwd = '';
-
-// DB接続
-try {
-	$pdo = new PDO($dbn, $user, $pwd);
-	// exit("ok");
-} catch (PDOException $e) {
-	echo json_encode(["db error" => "{$e->getMessage()}"]);
-	exit();
-}
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
-$sql = "SELECT * FROM projects WHERE company_id=$company_id";
+$sql = "SELECT * FROM projects WHERE team_id=$team_id";
 
 $stmt = $pdo->prepare($sql);
 
@@ -42,35 +36,50 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $project_abstract_html_element = "";
 
 foreach ($result as $key => $record) {
-	# code...
-	// $project_abstract_html_element .= "
-	// <tr>
-	// <td>{$record["project_id"]}</td>
-	// <td>{$record["category_id"]}</td>
-	// 	<td>
-	// 		<a href='./project_detail.php?project_id={$record["project_id"]}'>
-	// 			{$record["title"]}
-	// 		</a>
-	// 	</td>
-	//   <td>{$record["content"]}</td>
-	//   <td>{$record["deadline"]}</td>
-	//   <td>{$record["like_count"]}</td>
-	//   <td>{$record["created_at"]}</td>
-	//   <td>{$record["updated_at"]}</td>
-	// </tr>
-
-	// ";
 	$project_abstract_html_element .= "
-		<a class='card' href='./project_detail.php?project_id={$record["project_id"]}'>
-			<div class='title'>{$record["title"]}</div>
-			<div class='deadline'>{$record["deadline"]}</div>
-			<div class='content'>{$record["content"]}</div>
-			<div class='updated_at'>{$record["updated_at"]}</div>
-			<div class='like_count'>{$record["like_count"]}</div>
-		</a>
-		";
-}
+  <div class='magazine'>
+	<a class='project' href='./project_detail.php?project_id={$record["project_id"]}'>
+		<div class='image'>";
+	if ($record["image_url"] !== 0) {
+		$project_abstract_html_element .= "	
+			<img src='{$record["image_url"]}'>";
+	}
+	$project_abstract_html_element .= "
+		</div>
+		<div class='article'>
+			<div class='title'>
+				{$record["title"]}
+			</div>
+			<div class='content'>
+				{$record["content"]}
+			</div>
+			<div class='counter'>
+				{$record["like_count"]}
+				{$record["updated_at"]}
+			</div>
+		</div>
+		</a>	
 
+		<div class='edit'>
+			<div>
+				<div class='project_edit'>
+				<form action='./project_edit.php' method='POST'>
+				<input type='hidden' name='project_id' value='{$record["project_id"]}'>
+				<button>
+				EDIT
+				</button>
+				</form>
+				</div>
+				<div class='project_delete'>
+				<a href='./project_delete.php?project_id={$record["project_id"]}'>
+					delete
+					</a>
+				</div>
+			</div>
+		</div>
+		</div>
+  ";
+}
 
 ?>
 <!DOCTYPE html>
@@ -82,27 +91,37 @@ foreach ($result as $key => $record) {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
+	<link rel="stylesheet" type="text/css" href="./../css/creator_top.css">
 </head>
 
+<header>
+	<div class="header_top">
+		<a href="./user_top.php">
+			<div>
+				TOP
+			</div>
+		</a>
+	</div>
+	<div class="header_search">
+		<form action="./user_top.php" method="GET">
+			<input type="text" name="search">
+			<button>検索</button>
+		</form>
+	</div>
+	<div class="header_profile">
+		<a href="./creator_top.php">
+			<div>
+				プロフィール
+			</div>
+		</a>
+	</div>
+</header>
+
 <body>
-	<a href="./project_add.php?company_id=1">新商品を作る</a>
-	<p>開発中の商品</p>
-	<!-- <table>
-		<thead>
-			<td>新商品ID</td>
-			<td>カテゴリID</td>
-			<td>タイトル</td>
-			<td>内容</td>
-			<td>期限</td>
-			<td>イイネ数</td>
-			<td>作成日</td>
-			<td>更新日</td>
-		</thead>
-		<tbody>
-			<?= $project_abstract_html_element ?>
-		</tbody>
-	</table> -->
-	<section class="cards">
+	<a href="./project_add.php?team_id=1">新商品を作る</a>
+
+	<section class="search">
+		<h1>開発中の商品</h1>
 		<?= $project_abstract_html_element ?>
 	</section>
 	<!-- <a href="">プロフィール</a> -->

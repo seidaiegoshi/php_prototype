@@ -1,4 +1,6 @@
 <?php
+include("./functions/db.php");
+
 // var_dump($_GET["project_id"]);
 if (
 	!isset($_GET["project_id"]) || $_GET["project_id"] == ""
@@ -9,20 +11,8 @@ if (
 $project_id = $_GET["project_id"];
 
 
-// 各種項目設定
-$database_name = "php_ploto";
-$dbn = "mysql:dbname={$database_name};charset=utf8mb4;port=3306;host=localhost";
-$user = 'root';
-$pwd = '';
-
-// DB接続
-try {
-	$pdo = new PDO($dbn, $user, $pwd);
-	// exit("ok");
-} catch (PDOException $e) {
-	echo json_encode(["db error" => "{$e->getMessage()}"]);
-	exit();
-}
+//DB接続
+$pdo = connect_to_db();
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
@@ -39,29 +29,39 @@ try {
 	exit();
 }
 
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $project_abstract_html_element = "";
 
-foreach ($result as $key => $record) {
-	# code...
-	$project_abstract_html_element .= "
-  <tr>
-	<td>{$record["company_id"]}</td>
-	<td>{$record["category_id"]}</td>
-		<td>{$record["title"]}</td>
-    <td>{$record["content"]}</td>
-    <td>{$record["deadline"]}</td>
-    <td>{$record["like_count"]}</td>
-    <td>{$record["created_at"]}</td>
-    <td>{$record["updated_at"]}</td>
-  </tr>
-  ";
-	$company_id = $record["company_id"];
+$project_abstract_html_element .= "
+  <div class='magazine'>
+	<a class='project' href='./project_detail.php?project_id={$result["project_id"]}'>
+		<div class='image'>";
+if ($result["image_url"] !== 0) {
+	$project_abstract_html_element .= "	
+			<img src='{$result["image_url"]}'>";
 }
+$project_abstract_html_element .= "
+		</div>
+		<div class='article'>
+			<div class='title'>
+				{$result["title"]}
+			</div>
+			<div class='content'>
+				{$result["content"]}
+			</div>
+			<div class='counter'>
+				{$result["like_count"]}
+				{$result["updated_at"]}
+			</div>
+		</div>
+		</a>	
+		</div>
+  ";
+$team_id = $result["team_id"];
 
 // isseusテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
-$sql = "SELECT * FROM issues WHERE project_id=$project_id";
+$sql = "SELECT * FROM issues WHERE project_id=$project_id ORDER BY created_at ASC ";
 
 $stmt = $pdo->prepare($sql);
 
@@ -81,12 +81,26 @@ $issues_html_element = "";
 foreach ($result as $key => $record) {
 	# code...
 	$issues_html_element .= "
-  <tr>
-		<td>{$record["title"]}</td>
-    <td>{$record["content"]}</td>
-    <td>{$record["created_at"]}</td>
-    <td>{$record["updated_at"]}</td>
-  </tr>
+  <div class='timeline_content'>
+		<div class='time'>
+    	{$record["created_at"]}
+		</div>
+		<div class='content'>
+			<div class='title'>{$record["title"]}</div>
+    	<div>{$record["content"]}</div>
+		</div>
+		<div class='edit'>
+			<div>	
+				<form action='./issue_edit.php' method='POST'>
+					<input type='hidden' name='issue_id' value='{$record["issue_id"]}'>
+					<button>EDIT</button>
+				</form>
+			</div>
+			<div class='delete'>
+				<a href='./issue_delete.php?project_id={$project_id}&issue_id={$record["issue_id"]}'>delete</a>
+			</div>
+		</div>
+  </div>
   ";
 }
 
@@ -105,46 +119,54 @@ foreach ($result as $key => $record) {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
+	<link rel="stylesheet" type="text/css" href="./../css/project_detail.css">
 </head>
 <header>
-	<a href="./creator_top.php?company_id=<?= $company_id ?>">HOME</a>
+	<div class="header_top">
+		<a href="./user_top.php">
+			<div>
+				TOP
+			</div>
+		</a>
+	</div>
+	<div class="header_search">
+		<form action="./user_top.php" method="GET">
+			<input type="text" name="search">
+			<button>検索</button>
+		</form>
+	</div>
+	<div class="header_profile">
+		<a href="./creator_top.php">
+			<div>
+				プロフィール
+			</div>
+		</a>
+	</div>
 </header>
 
 <body>
-	<p>開発中の商品</p>
-	<table>
-		<thead>
-			<td>会社ID</td>
-			<td>カテゴリID</td>
-			<td>タイトル</td>
-			<td>内容</td>
-			<td>期限</td>
-			<td>イイネ数</td>
-			<td>作成日</td>
-			<td>更新日</td>
-		</thead>
-		<tbody>
-			<?= $project_abstract_html_element ?>
-		</tbody>
-	</table>
+	<section class="abstract">
+		<h1>開発中の商品</h1>
+		<?= $project_abstract_html_element ?>
+	</section>
 
-	<p>開発の進捗</p>
-	<form action="./issue_add.php" method="GET">
-		<input type="text" name="project_id" value="<?= $project_id ?>" hidden>
-		<button>進捗を追加する</button>
-	</form>
-	<table>
-		<thead>
-			<td>タイトル</td>
-			<td>内容</td>
-			<td>作成日</td>
-			<td>更新日</td>
-		</thead>
-		<tbody>
-			<?= $issues_html_element ?>
-		</tbody>
-	</table>
-
+	<section class="progress">
+		<h2>開発の進捗</h2>
+		<div class="cheer_area">
+			<div class="milestone_area">
+				<div>
+					<?= $issues_html_element ?>
+				</div>
+				<form action="./issue_add.php" method="GET">
+					<input type="text" name="project_id" value="<?= $project_id ?>" hidden>
+					<button>進捗を追加する</button>
+				</form>
+			</div>
+			<div class="comment_area">
+				user comment area
+			</div>
+		</div>
+	</section>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 </body>
 

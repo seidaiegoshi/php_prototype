@@ -1,0 +1,54 @@
+.cheer_area {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 8px;
+}
+
+.milestone_area {
+	width: 50%;
+}
+
+.comment_area {
+	width: 50%;
+}
+
+.title {
+	font-weight: bold;
+	margin-right: 1rem;
+}
+
+.date {
+	color: #888;
+}
+
+.timeline_content {
+	padding-bottom: 16px;
+	padding-left: 20px;
+	margin-left: 20px;
+	width: calc(100%-50px);
+	position: relative;
+	border-left: solid 1px #ccc;
+}
+
+.time::before {
+	content: " ";
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	background-color: #ccc;
+	position: absolute;
+	left: -0.5rem;
+	top: 0rem;
+}
+
+.edit {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.delete a {
+	margin-left: 1rem;
+	color: brown;
+}

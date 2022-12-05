@@ -1,0 +1,36 @@
+.magazine a {
+	width: 80%;
+}
+
+.magazine .edit {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20%;
+}
+
+.project_edit {
+	margin: 8px;
+}
+.project_edit button {
+	text-align: center;
+	text-decoration: none;
+	color: #111;
+	border: solid 1px #333;
+	border-radius: 5px;
+	padding: 8px;
+}
+.project_edit button:hover {
+	background-color: #999;
+}
+
+.project_delete {
+	margin: 8px;
+}
+.project_delete a {
+	text-align: center;
+
+	border: none;
+	text-decoration: underline;
+	color: red;
+}

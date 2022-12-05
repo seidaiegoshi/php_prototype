@@ -1,10 +1,10 @@
 <?php
 if (
-	!isset($_GET["company_id"]) || $_GET["company_id"] == ""
+	!isset($_GET["team_id"]) || $_GET["team_id"] == ""
 ) {
 	header("Location:./login.html");
 }
-$company_id = $_GET["company_id"];
+$team_id = $_GET["team_id"];
 
 ?>
 
@@ -17,26 +17,63 @@ $company_id = $_GET["company_id"];
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="./../css/product_edit.css" />
 </head>
 <header>
-	<a href="./creator_top.php?company_id=<?= $company_id ?>">HOME</a>
+	<div class="header_top">
+		<a href="./user_top.php">
+			<div>
+				TOP
+			</div>
+		</a>
+	</div>
+	<div class="header_search">
+		<form action="./user_top.php" method="GET">
+			<input type="text" name="search">
+			<button>検索</button>
+		</form>
+	</div>
+	<div class="header_profile">
+		<a href="./creator_top.php">
+			<div>
+				プロフィール
+			</div>
+		</a>
+	</div>
 </header>
 
 <body>
-	<form action="./project_create.php" method="POST">
+	<form action="./project_create.php" method="POST" enctype="multipart/form-data">
 		<fieldset>
 			<legend>新商品作成</legend>
-			<input type="number" name="company_id" value="<?= $company_id ?>" hidden />
-			<div>type: <input type="number" name="category_id" /></div>
+			<img id="project_image" src="" alt="project image">
+			<label for="upload_image" id="upload_image_label">写真を変更</label>
+			<input type="file" name="image" id="upload_image">
+			<input type="hidden" name="team_id" value="<?= $team_id ?>" />
 			<div>product name: <input type="text" name="title" /></div>
-			<div>content: <input type="text" name="content" /></div>
+			<div>content: <textarea type="text" name="content"></textarea></div>
 			<div>deadline: <input type="date" name="deadline" /></div>
 			<div>
 				<button>submit</button>
 			</div>
 		</fieldset>
 	</form>
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		$("#upload_image").change(function(e) {
+			const file = e.target.files[0]; //fileを取得
+			const reader = new FileReader(); //ファイルリーダーオブジェクトの準備
+			reader.readAsDataURL(file); //アップロードしたファイルを読み込み
+			reader.onload = (function(file) {
+				//与えたファイルをロードできたら、imgタグのソースを変更する。
+				$("#project_image").attr("src", reader.result);
+			});
+			if (file.type.indexOf("image") < 0) {
+				// 画像じゃなかったときのエラー処理
+				alert("画像を選択してください。");
+			}
+		});
+	</script>
 </body>
 
 </html>
