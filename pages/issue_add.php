@@ -13,6 +13,28 @@ $project_id  = $_GET["project_id"];
 	<!-- <link rel="stylesheet" type="text/css" href="./css/style.css"> -->
 </head>
 
+<header>
+	<div class="header_top">
+		<a href="./../index.html">
+			<div>
+				TOP
+			</div>
+		</a>
+	</div>
+	<div class="header_search">
+		<form action="./user_top.php" method="GET">
+			<input type="text" name="search">
+			<button>検索</button>
+		</form>
+	</div>
+	<div class="header_profile">
+		<a href="">
+			<div>
+				プロフィール
+			</div>
+		</a>
+	</div>
+</header>
 
 <body>
 	進捗を追加する画面

@@ -96,8 +96,26 @@ foreach ($result as $key => $record) {
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
 </head>
 <header>
-	<a href="./../index.html">TOP</a>
-	<a href="./creator_top.php?team_id=<?= $team_id ?>">company top</a>
+	<div class="header_top">
+		<a href="./../index.html">
+			<div>
+				TOP
+			</div>
+		</a>
+	</div>
+	<div class="header_search">
+		<form action="./user_top.php" method="GET">
+			<input type="text" name="search">
+			<button>検索</button>
+		</form>
+	</div>
+	<div class="header_profile">
+		<a href="">
+			<div>
+				プロフィール
+			</div>
+		</a>
+	</div>
 </header>
 
 <body>

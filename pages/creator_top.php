@@ -33,34 +33,23 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $project_abstract_html_element = "";
 
 foreach ($result as $key => $record) {
-	# code...
-	// $project_abstract_html_element .= "
-	// <tr>
-	// <td>{$record["project_id"]}</td>
-	// 	<td>
-	// 		<a href='./project_detail.php?project_id={$record["project_id"]}'>
-	// 			{$record["title"]}
-	// 		</a>
-	// 	</td>
-	//   <td>{$record["content"]}</td>
-	//   <td>{$record["deadline"]}</td>
-	//   <td>{$record["like_count"]}</td>
-	//   <td>{$record["created_at"]}</td>
-	//   <td>{$record["updated_at"]}</td>
-	// </tr>
-
-	// ";
 	$project_abstract_html_element .= "
 		<a class='card' href='./project_detail.php?project_id={$record["project_id"]}'>
 			<div class='title'>{$record["title"]}</div>
-			<div class='deadline'>{$record["deadline"]}</div>
+			<div class='deadline'>{$record["deadline"]}</div>";
+
+	if ($record["image_url"] == 0) {
+		$project_abstract_html_element .= "	<div class='image'></div>";
+	} else {
+		$project_abstract_html_element .= "	<div class='image'><img src='{$record["image_url"]}'></div>";
+	}
+	$project_abstract_html_element .= "
 			<div class='content'>{$record["content"]}</div>
 			<div class='updated_at'>{$record["updated_at"]}</div>
 			<div class='like_count'>{$record["like_count"]}</div>
 		</a>
 		";
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -75,7 +64,26 @@ foreach ($result as $key => $record) {
 </head>
 
 <header>
-	<a href="./../index.html">TOP</a>
+	<div class="header_top">
+		<a href="./../index.html">
+			<div>
+				TOP
+			</div>
+		</a>
+	</div>
+	<div class="header_search">
+		<form action="./user_top.php" method="GET">
+			<input type="text" name="search">
+			<button>検索</button>
+		</form>
+	</div>
+	<div class="header_profile">
+		<a href="">
+			<div>
+				プロフィール
+			</div>
+		</a>
+	</div>
 </header>
 
 <body>

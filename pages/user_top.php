@@ -40,14 +40,25 @@ $project_abstract_html_element = "";
 foreach ($result as $key => $record) {
 	# code...
 	$project_abstract_html_element .= "
-  <tr>
-	<td>{$record["team_id"]}</td>
-		<td>{$record["title"]}</td>
-    <td>{$record["content"]}</td>
-    <td>{$record["deadline"]}</td>
-    <td>{$record["like_count"]}</td>
-    <td>{$record["updated_at"]}</td>
-  </tr>
+	<a href='./project_detail.php?project_id={$record["project_id"]}'>
+  <div class='magazine'>
+		<div class='image'>
+			<img src='{$record["image_url"]}'>
+		</div>
+		<div class='article'>
+			<div class='title'>
+				{$record["title"]}
+			</div>
+			<div class='content'>
+				{$record["content"]}
+			</div>
+			<div class='counter'>
+				{$record["like_count"]}
+				{$record["updated_at"]}
+			</div>
+		</div>
+		</div>
+		</a>	
   ";
 }
 
@@ -62,43 +73,40 @@ foreach ($result as $key => $record) {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>user top</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
+	<link rel="stylesheet" type="text/css" href="./../css/user_top.css">
 </head>
 
 <header>
-	<a href="./../index.html">TOP</a>
-	<a href="./creator_top.php?team_id=1">商品を作る</a>
-	<a href="">プロフィール</a>
+	<div class="header_top">
+		<a href="./../index.html">
+			<div>
+				TOP
+			</div>
+		</a>
+	</div>
+	<div class="header_search">
+		<form action="./user_top.php" method="GET">
+			<input type="text" name="search">
+			<button>検索</button>
+		</form>
+	</div>
+	<div class="header_profile">
+		<a href="">
+			<div>
+				プロフィール
+			</div>
+		</a>
+	</div>
 </header>
 
 <body>
+	<section class="search">
+		<h1>試作中のプロダクトを探す</h1>
+		<?= $project_abstract_html_element ?>
+	</section>
+	<section class="favorite">
 
-	<div>
-		<div>
-			<p>商品を探す</p>
-		</div>
-		<div>
-			<form action="./user_top.php" method="GET">
-				<input type="text" name="search">
-				<button>検索</button>
-			</form>
-		</div>
-	</div>
-	<div>
-		<table>
-			<thead>
-				<td>会社ID</td>
-				<td>カテゴリID</td>
-				<td>タイトル</td>
-				<td>内容</td>
-				<td>期限</td>
-				<td>イイネ数</td>
-				<td>更新日</td>
-			</thead>
-			<tbody>
-				<?= $project_abstract_html_element ?>
-			</tbody>
-		</table>
-	</div>
+	</section>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 </body>
 

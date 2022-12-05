@@ -3,6 +3,77 @@
 	padding: 0px;
 }
 
+/* ヘッダー */
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #333;
+	height: 50px;
+	padding: 0px 10px;
+	color: white;
+	text-decoration: none;
+}
+
+.header_top {
+	height: 100%;
+	width: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.header_top a {
+	text-decoration: none;
+	color: white;
+
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.header_top a:hover {
+	background-color: #888;
+}
+
+.header_search input {
+	border: solid 1px #333;
+	padding: 10px;
+	border-radius: 5px;
+}
+.header_search button {
+	border: solid 1px #333;
+	border-radius: 5px;
+	padding: 10px;
+	color: white;
+	background-color: #555;
+}
+.header_search button:hover {
+	background-color: #888;
+}
+.header_profile {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.header_profile a {
+	text-decoration: none;
+	color: white;
+
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.header_profile a:hover {
+	background-color: #888;
+}
+/* テーブル */
 table {
 	border-spacing: 10px;
 	border-collapse: collapse;
@@ -60,4 +131,8 @@ a.card {
 	position: absolute;
 	bottom: 8px;
 	right: 8px;
+}
+.card img {
+	width: 100%;
+	max-height: 100%;
 }
