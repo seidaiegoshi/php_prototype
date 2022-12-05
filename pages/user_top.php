@@ -38,7 +38,6 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $project_abstract_html_element = "";
 
 foreach ($result as $key => $record) {
-	# code...
 	$project_abstract_html_element .= "
   <div class='magazine'>
 		<a class='project' href='./project_detail.php?project_id={$record["project_id"]}'>

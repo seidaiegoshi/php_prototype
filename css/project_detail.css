@@ -1,0 +1,26 @@
+.cheer_area {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.milestone_area {
+	width: 50%;
+}
+
+.comment_area {
+	width: 50%;
+}
+
+.title {
+	font-weight: bold;
+	margin-right: 1rem;
+}
+
+.date {
+	color: #888;
+}
+
+.timeline_content {
+	margin-bottom: 16px;
+}
