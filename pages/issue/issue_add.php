@@ -1,5 +1,10 @@
 <?php
+session_start();
+include('./../functions/is_login.php');
+check_session_id();
+
 $project_id  = $_GET["project_id"];
+
 ?>
 
 <!DOCTYPE html>

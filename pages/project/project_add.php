@@ -1,4 +1,9 @@
 <?php
+session_start();
+include('./../functions/is_login.php');
+check_session_id();
+
+
 if (
 	!isset($_GET["team_id"]) || $_GET["team_id"] == ""
 ) {
