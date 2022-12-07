@@ -52,6 +52,7 @@ $val = $stmt->fetch(PDO::FETCH_ASSOC);
 $_SESSION = array();
 $_SESSION["session_id"] = session_id();
 $_SESSION["username"] = $val["username"];
+$_SESSION["user_id"] = $val["user_id"];
 
 
 header("Location:./../user_top.php");

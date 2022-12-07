@@ -33,6 +33,7 @@ try {
 }
 
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
+$user_id = $result["user_id"];
 
 $project_abstract_html_element = "";
 
@@ -62,7 +63,7 @@ $project_abstract_html_element .= "
 $team_id = $result["team_id"];
 
 // isseusテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
-$sql = "SELECT * FROM issues WHERE project_id=$project_id ORDER BY created_at ASC ";
+$sql = "SELECT * FROM issues WHERE project_id=$project_id ORDER BY created_at DESC ";
 
 $stmt = $pdo->prepare($sql);
 
@@ -89,7 +90,10 @@ foreach ($result as $key => $record) {
 		<div class='content'>
 			<div class='title'>{$record["title"]}</div>
     	<div>{$record["content"]}</div>
-		</div>
+		</div>";
+
+	if ($user_id == $_SESSION["user_id"]) {
+		$issues_html_element .= "
 		<div class='edit'>
 			<div>	
 				<form action='./../issue/issue_edit.php' method='POST'>
@@ -100,14 +104,24 @@ foreach ($result as $key => $record) {
 			<div class='delete'>
 				<a href='./../issue/issue_delete.php?project_id={$project_id}&issue_id={$record["issue_id"]}'>delete</a>
 			</div>
-		</div>
+		</div>";
+	}
+	$issues_html_element .= "	
   </div>
   ";
 }
 
-// var_dump($output);
 
-
+// 進捗を追加するボタン
+$add_progress = "";
+if ($user_id == $_SESSION["user_id"]) {
+	$add_progress = "
+	<form action='./../issue/issue_add.php' method='GET'>
+		<input type='hidden' name='project_id' value='{$project_id}' >
+		<button>進捗を追加する</button>
+	</form>
+	";
+}
 
 ?>
 
@@ -158,10 +172,7 @@ foreach ($result as $key => $record) {
 				<div>
 					<?= $issues_html_element ?>
 				</div>
-				<form action="./../issue/issue_add.php" method="GET">
-					<input type="text" name="project_id" value="<?= $project_id ?>" hidden>
-					<button>進捗を追加する</button>
-				</form>
+				<?= $add_progress ?>
 			</div>
 			<div class="comment_area">
 				user comment area
