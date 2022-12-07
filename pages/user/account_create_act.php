@@ -47,5 +47,12 @@ try {
   exit();
 }
 
+// ユーザー情報をセッションに
+$val = $stmt->fetch(PDO::FETCH_ASSOC);
+$_SESSION = array();
+$_SESSION["session_id"] = session_id();
+$_SESSION["username"] = $val["username"];
+
+
 header("Location:./../user_top.php");
 exit();
