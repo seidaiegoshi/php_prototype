@@ -1,5 +1,5 @@
 <?php
-include('./functions/db.php');
+include('./../functions/db.php');
 
 if (
   !isset($_POST['username']) || $_POST['username'] == '' ||
@@ -28,7 +28,8 @@ try {
 
 if ($stmt->fetchColumn() > 0) {
   echo '<p>すでに登録されているユーザです．</p>';
-  echo '<a href="todo_login.php">login</a>';
+  echo '<div><a href="./login.html">ログインページへ</a></div>';
+  echo '<div><a href="./account_create.html">ユーザ登録ページへ</a></div>';
   exit();
 }
 
@@ -46,5 +47,5 @@ try {
   exit();
 }
 
-header("Location:./user_top.php");
+header("Location:./../user_top.php");
 exit();
