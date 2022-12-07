@@ -1,5 +1,5 @@
 <?php
-include("./functions/db.php");
+include("./../functions/db.php");
 
 //画像の処理
 if (!isset($_POST["image"]) || $_POST["image"] == "") {
@@ -9,13 +9,13 @@ if (!isset($_POST["image"]) || $_POST["image"] == "") {
     // $_FILES['image']['name']もとのファイルの名前
     // $_FILES['image']['tmp_name']サーバーにある一時ファイルの名前
     $filename = uniqid() . $_FILES['image']['name'];
-    $uploaded_path = './../data/images/' . $filename;
+    $uploaded_path = './../../data/images/' . $filename;
 
     $result = move_uploaded_file($_FILES['image']['tmp_name'], $uploaded_path);
 
     if ($result) {
       $MSG = 'アップロード成功！';
-      $image_url = $uploaded_path;
+      $image_url = '/data/images/' . $filename;
     } else {
       $MSG = 'アップロード失敗！エラーコード：' . $_FILES['image']['error'];
     }
@@ -24,7 +24,6 @@ if (!isset($_POST["image"]) || $_POST["image"] == "") {
   }
   echo $MSG;
 }
-
 // var_dump($_POST);
 
 // 値がちゃんとあるかチェック。

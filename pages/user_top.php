@@ -40,11 +40,11 @@ $project_abstract_html_element = "";
 foreach ($result as $key => $record) {
 	$project_abstract_html_element .= "
   <div class='magazine'>
-		<a class='project' href='./project_detail.php?project_id={$record["project_id"]}'>
+		<a class='project' href='./project/project_detail.php?project_id={$record["project_id"]}'>
 				<div class='image'>";
 	if ($record["image_url"] !== 0) {
 		$project_abstract_html_element .= "	
-					<img src='{$record["image_url"]}'>";
+					<img src='./..{$record["image_url"]}'>";
 	}
 	$project_abstract_html_element .= "
 					</div>
@@ -94,7 +94,7 @@ foreach ($result as $key => $record) {
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="./creator_top.php">
+		<a href="././profile/manage_projects.php">
 			<div>
 				プロフィール
 			</div>

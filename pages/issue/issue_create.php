@@ -1,5 +1,5 @@
 <?php
-include("./functions/db.php");
+include("./../functions/db.php");
 var_dump($_POST);
 // var_dump($_POST);
 
@@ -44,4 +44,4 @@ try {
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-header("Location:./project_detail.php?project_id=" . $project_id);
+header("Location:./../project/project_detail.php?project_id=" . $project_id);

@@ -1,5 +1,5 @@
 <?php
-include("./functions/db.php");
+include("././functions/db.php");
 
 
 //画像の処理
@@ -8,7 +8,7 @@ if (!isset($_POST["image"]) || $_POST["image"] == "") {
     // $_FILES['image']['name']もとのファイルの名前
     // $_FILES['image']['tmp_name']サーバーにある一時ファイルの名前
     $filename = uniqid() . $_FILES['image']['name'];
-    $uploaded_path = './../data/images/' . $filename;
+    $uploaded_path = './../../data/images/' . $filename;
 
     $result = move_uploaded_file($_FILES['image']['tmp_name'], $uploaded_path);
 
@@ -92,4 +92,4 @@ if (!empty($image_url)) {
 
 
 
-header("Location:./creator_top.php");
+header("Location:./../profile/manage_projects.php");

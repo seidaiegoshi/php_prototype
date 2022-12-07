@@ -1,5 +1,5 @@
 <?php
-include("./functions/db.php");
+include("./../functions/db.php");
 
 // 値がちゃんとあるかチェック。
 if (
@@ -53,7 +53,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 <body>
-  <form action="./project_update.php" method="POST" enctype="multipart/form-data">
+  <form action="./../project_update.php" method="POST" enctype="multipart/form-data">
     <fieldset>
       <legend>プロジェクトの編集</legend>
       <input type="hidden" name="old_image_url" value="<?= $result["image_url"] ?>">
@@ -73,7 +73,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
       </div>
       <div>
         <button>submit</button>
-        <a href="./creator_top.php">Cancel</a>
+        <a href="./../profile/manage_projects.php">Cancel</a>
       </div>
     </fieldset>
   </form>

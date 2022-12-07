@@ -1,5 +1,5 @@
 <?php
-include("./functions/db.php");
+include("./../functions/db.php");
 
 var_dump($_GET);
 
@@ -29,4 +29,4 @@ try {
   exit();
 }
 
-header("Location:./project_detail.php?project_id=" . $project_id);
+header("Location:./../project/project_detail.php?project_id=" . $project_id);

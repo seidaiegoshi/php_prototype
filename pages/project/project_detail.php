@@ -1,11 +1,11 @@
 <?php
-include("./functions/db.php");
+include("./../functions/db.php");
 
 // var_dump($_GET["project_id"]);
 if (
 	!isset($_GET["project_id"]) || $_GET["project_id"] == ""
 ) {
-	header("Location:./login.html");
+	header("Location:./../user/login.html");
 }
 
 $project_id = $_GET["project_id"];
@@ -35,11 +35,10 @@ $project_abstract_html_element = "";
 
 $project_abstract_html_element .= "
   <div class='magazine'>
-	<a class='project' href='./project_detail.php?project_id={$result["project_id"]}'>
 		<div class='image'>";
 if ($result["image_url"] !== 0) {
 	$project_abstract_html_element .= "	
-			<img src='{$result["image_url"]}'>";
+			<img src='./../../{$result["image_url"]}'>";
 }
 $project_abstract_html_element .= "
 		</div>
@@ -55,8 +54,7 @@ $project_abstract_html_element .= "
 				{$result["updated_at"]}
 			</div>
 		</div>
-		</a>	
-		</div>
+	</div>
   ";
 $team_id = $result["team_id"];
 
@@ -91,13 +89,13 @@ foreach ($result as $key => $record) {
 		</div>
 		<div class='edit'>
 			<div>	
-				<form action='./issue_edit.php' method='POST'>
+				<form action='./../issue/issue_edit.php' method='POST'>
 					<input type='hidden' name='issue_id' value='{$record["issue_id"]}'>
 					<button>EDIT</button>
 				</form>
 			</div>
 			<div class='delete'>
-				<a href='./issue_delete.php?project_id={$project_id}&issue_id={$record["issue_id"]}'>delete</a>
+				<a href='./../issue/issue_delete.php?project_id={$project_id}&issue_id={$record["issue_id"]}'>delete</a>
 			</div>
 		</div>
   </div>
@@ -118,25 +116,25 @@ foreach ($result as $key => $record) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="./../css/style.css">
-	<link rel="stylesheet" type="text/css" href="./../css/project_detail.css">
+	<link rel="stylesheet" type="text/css" href="./../../css/style.css">
+	<link rel="stylesheet" type="text/css" href="./../../css/project_detail.css">
 </head>
 <header>
 	<div class="header_top">
-		<a href="./user_top.php">
+		<a href="./../user_top.php">
 			<div>
 				TOP
 			</div>
 		</a>
 	</div>
 	<div class="header_search">
-		<form action="./user_top.php" method="GET">
+		<form action="./../user_top.php" method="GET">
 			<input type="text" name="search">
 			<button>検索</button>
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="./creator_top.php">
+		<a href="./../profile/manage_projects.php">
 			<div>
 				プロフィール
 			</div>
@@ -157,7 +155,7 @@ foreach ($result as $key => $record) {
 				<div>
 					<?= $issues_html_element ?>
 				</div>
-				<form action="./issue_add.php" method="GET">
+				<form action="./../issue/issue_add.php" method="GET">
 					<input type="text" name="project_id" value="<?= $project_id ?>" hidden>
 					<button>進捗を追加する</button>
 				</form>

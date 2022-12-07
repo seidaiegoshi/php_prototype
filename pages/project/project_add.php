@@ -2,7 +2,7 @@
 if (
 	!isset($_GET["team_id"]) || $_GET["team_id"] == ""
 ) {
-	header("Location:./login.html");
+	header("Location:./../user/login.html");
 }
 $team_id = $_GET["team_id"];
 
@@ -16,12 +16,12 @@ $team_id = $_GET["team_id"];
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="./../css/style.css" />
-	<link rel="stylesheet" type="text/css" href="./../css/product_edit.css" />
+	<link rel="stylesheet" type="text/css" href="./../../css/style.css" />
+	<link rel="stylesheet" type="text/css" href="./../../css/product_edit.css" />
 </head>
 <header>
 	<div class="header_top">
-		<a href="./user_top.php">
+		<a href="./../user_top.php">
 			<div>
 				TOP
 			</div>
@@ -34,7 +34,7 @@ $team_id = $_GET["team_id"];
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="./creator_top.php">
+		<a href="./manage_projects.php">
 			<div>
 				プロフィール
 			</div>
@@ -43,7 +43,7 @@ $team_id = $_GET["team_id"];
 </header>
 
 <body>
-	<form action="./project_create.php" method="POST" enctype="multipart/form-data">
+	<form action="./../project/project_create.php" method="POST" enctype="multipart/form-data">
 		<fieldset>
 			<legend>新商品作成</legend>
 			<img id="project_image" src="" alt="project image">

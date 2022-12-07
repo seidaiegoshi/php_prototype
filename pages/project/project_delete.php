@@ -1,5 +1,5 @@
 <?php
-include("./functions/db.php");
+include("./../functions/db.php");
 
 var_dump($_GET);
 
@@ -26,4 +26,4 @@ try {
   exit();
 }
 
-header("Location:./creator_top.php");
+header("Location:./../profile/manage_projects.php");
