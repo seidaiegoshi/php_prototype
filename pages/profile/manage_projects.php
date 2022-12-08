@@ -122,6 +122,9 @@ foreach ($result as $key => $record) {
 	<div>
 		<a href="./../team/team_top.php">チーム</a>
 	</div>
+	<div>
+		<a href="./../user/logout.php">ログアウト</a>
+	</div>
 	<section class="search">
 		<h1>開発中の商品</h1>
 		<?= $project_abstract_html_element ?>
