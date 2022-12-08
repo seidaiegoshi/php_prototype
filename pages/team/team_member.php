@@ -43,7 +43,11 @@ foreach ($result as $key => $value) {
   <li>
     <div>
       <div class='name'>{$value["username"]}</div>
-      <a href=',.team_member_delete.php'>delete</a>
+      <form action='./team_member_delete.php' method='POST'>
+        <input type='hidden' name='team_id' value='{$team_id}'>
+        <input type='hidden' name='username' value='{$value["username"]}'>
+        <button>delete</button>
+      </form>
       </div>
   </li>
   
