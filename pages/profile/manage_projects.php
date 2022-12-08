@@ -123,7 +123,7 @@ foreach ($result as $key => $record) {
 		<a href="./../user/logout.php">ログアウト</a>
 	</div>
 	<section class="search">
-		<h1>開発中の商品</h1>
+		<h1>自分が携わっている商品</h1>
 		<?= $project_abstract_html_element ?>
 	</section>
 	<!-- <a href="">プロフィール</a> -->

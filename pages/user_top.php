@@ -104,7 +104,7 @@ foreach ($result as $key => $record) {
 
 <body>
 	<section class="search">
-		<h1>試作中のプロダクトを探す</h1>
+		<h1>試作中の商品を見つける</h1>
 		<?= $project_abstract_html_element ?>
 	</section>
 	<section class="favorite">
