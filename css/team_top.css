@@ -1,0 +1,15 @@
+.team_list {
+	margin: 8px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.team_content {
+	border: solid 1px #333;
+	width: 300px;
+	background-color: #eee;
+}
+.team_name {
+	font-weight: bold;
+}

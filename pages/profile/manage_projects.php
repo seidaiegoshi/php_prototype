@@ -4,26 +4,21 @@ include('./../functions/db.php');
 include('./../functions/is_login.php');
 check_session_id();
 
-
-if (
-	!isset($_GET["team_id"]) || $_GET["team_id"] == ""
-) {
-	// header("Location:./login.html");
-	$team_id  = 1;
-} else {
-
-	$team_id = $_GET["team_id"];
-}
-
 //DB接続
 $pdo = connect_to_db();
 
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
-$sql = "SELECT * FROM projects WHERE team_id=$team_id";
+$sql = "SELECT * FROM projects 
+WHERE team_id in(
+SELECT team_id FROM team_members WHERE username=:username
+	)";
 
 $stmt = $pdo->prepare($sql);
+
+// バインド変数を設定
+$stmt->bindValue(':username', $_SESSION["username"], PDO::PARAM_STR);
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {
@@ -121,8 +116,12 @@ foreach ($result as $key => $record) {
 </header>
 
 <body>
-	<a href="./../project/project_add.php?team_id=1">新商品を作る</a>
-
+	<div>
+		<a href="./../project/project_add.php?team_id=1">新商品を作る</a>
+	</div>
+	<div>
+		<a href="./../team/team_top.php">チーム</a>
+	</div>
 	<section class="search">
 		<h1>開発中の商品</h1>
 		<?= $project_abstract_html_element ?>
