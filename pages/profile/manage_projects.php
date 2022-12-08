@@ -117,9 +117,6 @@ foreach ($result as $key => $record) {
 
 <body>
 	<div>
-		<a href="./../project/project_add.php?team_id=1">新商品を作る</a>
-	</div>
-	<div>
 		<a href="./../team/team_top.php">チーム</a>
 	</div>
 	<div>

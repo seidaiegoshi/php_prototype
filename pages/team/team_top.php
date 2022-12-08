@@ -30,26 +30,33 @@ try {
   exit();
 }
 
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$html_team_element = "
-<div class='team_content'>
-  <div class='team_name'>
-    {$result["team_name"]}
-  </div>
-  <div class='team_description'>
-    {$result["description"]}
-  </div>
-  <div>
-    <form action='./team_edit.php' method='GET'>
-      <input type='hidden' name='team_id' value='{$result["team_id"]}'>
-      <button>EDIT</button>  
-    </form>
-    <a href='./team_delete.php'>delete</a>
-  </div>
-</div>
 
+$html_team_element = "";
+foreach ($result as $key => $value) {
+  $html_team_element .= "
+  <div class='team_content'>
+    <div class='team_name'>
+      {$value["team_name"]}
+    </div>
+    <div class='team_description'>
+      {$value["description"]}
+    </div>
+    <div>
+      <form action='./team_edit.php' method='GET'>
+        <input type='hidden' name='team_id' value='{$value["team_id"]}'>
+        <button>EDIT</button>  
+      </form>
+      <a href='./team_delete.php'>delete</a>
+    </div>
+      <div>
+      <a href='./../project/project_add.php?team_id={$value["team_id"]}'>新商品を作る</a>
+    </div>
+  </div>
 ";
+}
+
 
 
 
