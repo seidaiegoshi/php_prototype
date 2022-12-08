@@ -1,0 +1,16 @@
+ul {
+	width: 300px;
+	background-color: #eee;
+}
+
+li {
+	margin-bottom: 8px;
+}
+li > div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+li > div a {
+	padding-left: 1rem;
+}
