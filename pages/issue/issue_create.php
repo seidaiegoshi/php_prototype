@@ -1,5 +1,9 @@
 <?php
 include("./../functions/db.php");
+session_start();
+include('./../functions/is_login.php');
+check_session_id();
+
 var_dump($_POST);
 // var_dump($_POST);
 
