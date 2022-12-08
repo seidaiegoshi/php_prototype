@@ -1,8 +1,6 @@
 <?php
 session_start();
 include('./../functions/db.php');
-include('./../functions/is_login.php');
-check_session_id();
 
 // var_dump($_GET["project_id"]);
 if (
@@ -92,7 +90,7 @@ foreach ($result as $key => $record) {
     	<div>{$record["content"]}</div>
 		</div>";
 
-	if ($user_id == $_SESSION["user_id"]) {
+	if (isset($_SESSION["user_id"]) && $user_id == $_SESSION["user_id"]) {
 		$issues_html_element .= "
 		<div class='edit'>
 			<div>	
@@ -111,10 +109,9 @@ foreach ($result as $key => $record) {
   ";
 }
 
-
 // 進捗を追加するボタン
 $add_progress = "";
-if ($user_id == $_SESSION["user_id"]) {
+if (isset($_SESSION["user_id"]) && $user_id == $_SESSION["user_id"]) {
 	$add_progress = "
 	<form action='./../issue/issue_add.php' method='GET'>
 		<input type='hidden' name='project_id' value='{$project_id}' >
