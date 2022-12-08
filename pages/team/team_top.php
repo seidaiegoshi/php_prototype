@@ -1,6 +1,6 @@
 <?php
-session_start();
 include('./../functions/db.php');
+session_start();
 include('./../functions/is_login.php');
 check_session_id();
 
@@ -39,6 +39,13 @@ $html_team_element = "
   </div>
   <div class='team_description'>
     {$result["description"]}
+  </div>
+  <div>
+    <form action='./team_edit.php' method='GET'>
+      <input type='hidden' name='team_id' value='{$result["team_id"]}'>
+      <button>EDIT</button>  
+    </form>
+    <a href='./team_delete.php'>delete</a>
   </div>
 </div>
 
