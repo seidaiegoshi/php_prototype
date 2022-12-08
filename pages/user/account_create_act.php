@@ -55,5 +55,5 @@ $_SESSION["username"] = $val["username"];
 $_SESSION["user_id"] = $val["user_id"];
 
 
-header("Location:./../user_top.php");
+header("Location:./login.html");
 exit();
