@@ -10,6 +10,7 @@ if (
 }
 
 $project_id = $_GET["project_id"];
+$username = $_SESSION["username"];
 
 
 //DB接続
@@ -17,9 +18,11 @@ $pdo = connect_to_db();
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
-$sql = "SELECT * FROM projects WHERE project_id=$project_id";
+$sql = "SELECT * FROM projects WHERE project_id=:project_id";
 
 $stmt = $pdo->prepare($sql);
+$stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
+
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {
@@ -31,7 +34,10 @@ try {
 }
 
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
 $user_id = $result["user_id"];
+$team_id = $result["team_id"];
+
 
 $project_abstract_html_element = "";
 
@@ -58,12 +64,40 @@ $project_abstract_html_element .= "
 		</div>
 	</div>
   ";
-$team_id = $result["team_id"];
 
-// isseusテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
-$sql = "SELECT * FROM issues WHERE project_id=$project_id ORDER BY created_at DESC ";
+// チームに自分が含まれているか確認する。
+$sql = "SELECT COUNT(*) FROM team_members 
+WHERE team_id=:team_id AND username=:username";
 
 $stmt = $pdo->prepare($sql);
+$stmt->bindValue(':team_id', $team_id, PDO::PARAM_STR);
+$stmt->bindValue(':username', $username, PDO::PARAM_STR);
+
+
+// SQL実行（実行に失敗すると `sql error ...` が出力される）
+try {
+	$status = $stmt->execute();
+	// var_dump($status);
+} catch (PDOException $e) {
+	echo json_encode(["sql error" => "{$e->getMessage()}"]);
+	exit();
+}
+if ($stmt->fetchColumn() !== 0) {
+	// チームメンバーの場合
+	$is_member = true;
+} else {
+	// チームメンバーじゃない場合
+	$is_member = false;
+}
+
+
+// issuesテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
+$sql = "SELECT * FROM issues WHERE project_id=:project_id ORDER BY created_at DESC ";
+
+
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
+
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {
@@ -90,7 +124,7 @@ foreach ($result as $key => $record) {
     	<div>{$record["content"]}</div>
 		</div>";
 
-	if (isset($_SESSION["user_id"]) && $user_id == $_SESSION["user_id"]) {
+	if ($is_member) {
 		$issues_html_element .= "
 		<div class='edit'>
 			<div>	
@@ -111,7 +145,7 @@ foreach ($result as $key => $record) {
 
 // 進捗を追加するボタン
 $add_progress = "";
-if (isset($_SESSION["user_id"]) && $user_id == $_SESSION["user_id"]) {
+if ($is_member) {
 	$add_progress = "
 	<form action='./../issue/issue_add.php' method='GET'>
 		<input type='hidden' name='project_id' value='{$project_id}' >
