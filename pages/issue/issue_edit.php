@@ -1,5 +1,8 @@
 <?php
-include("./functions/db.php");
+include('./../functions/db.php');
+session_start();
+include('./../functions/is_login.php');
+check_session_id();
 // var_dump($_POST);
 
 // 値がちゃんとあるかチェック。
@@ -60,7 +63,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
       <div>content: <textarea type="text" name="content"><?= $result["content"] ?></textarea></div>
       <div>
         <button>submit</button>
-        <a href="./project_detail.php?project_id=<?= $result["project_id"] ?>">cancel</a>
+        <a href="./../project/project_detail.php?project_id=<?= $result["project_id"] ?>">cancel</a>
 
       </div>
     </fieldset>

@@ -1,5 +1,8 @@
 <?php
-include("./functions/db.php");
+include('./../functions/db.php');
+session_start();
+include('./../functions/is_login.php');
+check_session_id();
 
 // 値がちゃんとあるかチェック。
 if (
@@ -48,12 +51,12 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>project edit</title>
-  <link rel="stylesheet" type="text/css" href="./../css/product_edit.css" />
+  <link rel="stylesheet" type="text/css" href="./../../css/product_edit.css" />
 </head>
 
 
 <body>
-  <form action="./project_update.php" method="POST" enctype="multipart/form-data">
+  <form action="./../project_update.php" method="POST" enctype="multipart/form-data">
     <fieldset>
       <legend>プロジェクトの編集</legend>
       <input type="hidden" name="old_image_url" value="<?= $result["image_url"] ?>">
@@ -73,7 +76,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
       </div>
       <div>
         <button>submit</button>
-        <a href="./creator_top.php">Cancel</a>
+        <a href="./../profile/manage_projects.php">Cancel</a>
       </div>
     </fieldset>
   </form>

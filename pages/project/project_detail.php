@@ -1,11 +1,12 @@
 <?php
-include("./functions/db.php");
+session_start();
+include('./../functions/db.php');
 
 // var_dump($_GET["project_id"]);
 if (
 	!isset($_GET["project_id"]) || $_GET["project_id"] == ""
 ) {
-	header("Location:./login.html");
+	header("Location:./../user/login.html");
 }
 
 $project_id = $_GET["project_id"];
@@ -30,16 +31,16 @@ try {
 }
 
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
+$user_id = $result["user_id"];
 
 $project_abstract_html_element = "";
 
 $project_abstract_html_element .= "
   <div class='magazine'>
-	<a class='project' href='./project_detail.php?project_id={$result["project_id"]}'>
 		<div class='image'>";
 if ($result["image_url"] !== 0) {
 	$project_abstract_html_element .= "	
-			<img src='{$result["image_url"]}'>";
+			<img src='./../../{$result["image_url"]}'>";
 }
 $project_abstract_html_element .= "
 		</div>
@@ -55,13 +56,12 @@ $project_abstract_html_element .= "
 				{$result["updated_at"]}
 			</div>
 		</div>
-		</a>	
-		</div>
+	</div>
   ";
 $team_id = $result["team_id"];
 
 // isseusテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
-$sql = "SELECT * FROM issues WHERE project_id=$project_id ORDER BY created_at ASC ";
+$sql = "SELECT * FROM issues WHERE project_id=$project_id ORDER BY created_at DESC ";
 
 $stmt = $pdo->prepare($sql);
 
@@ -88,25 +88,37 @@ foreach ($result as $key => $record) {
 		<div class='content'>
 			<div class='title'>{$record["title"]}</div>
     	<div>{$record["content"]}</div>
-		</div>
+		</div>";
+
+	if (isset($_SESSION["user_id"]) && $user_id == $_SESSION["user_id"]) {
+		$issues_html_element .= "
 		<div class='edit'>
 			<div>	
-				<form action='./issue_edit.php' method='POST'>
+				<form action='./../issue/issue_edit.php' method='POST'>
 					<input type='hidden' name='issue_id' value='{$record["issue_id"]}'>
 					<button>EDIT</button>
 				</form>
 			</div>
 			<div class='delete'>
-				<a href='./issue_delete.php?project_id={$project_id}&issue_id={$record["issue_id"]}'>delete</a>
+				<a href='./../issue/issue_delete.php?project_id={$project_id}&issue_id={$record["issue_id"]}'>delete</a>
 			</div>
-		</div>
+		</div>";
+	}
+	$issues_html_element .= "	
   </div>
   ";
 }
 
-// var_dump($output);
-
-
+// 進捗を追加するボタン
+$add_progress = "";
+if (isset($_SESSION["user_id"]) && $user_id == $_SESSION["user_id"]) {
+	$add_progress = "
+	<form action='./../issue/issue_add.php' method='GET'>
+		<input type='hidden' name='project_id' value='{$project_id}' >
+		<button>進捗を追加する</button>
+	</form>
+	";
+}
 
 ?>
 
@@ -118,25 +130,25 @@ foreach ($result as $key => $record) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="./../css/style.css">
-	<link rel="stylesheet" type="text/css" href="./../css/project_detail.css">
+	<link rel="stylesheet" type="text/css" href="./../../css/style.css">
+	<link rel="stylesheet" type="text/css" href="./../../css/project_detail.css">
 </head>
 <header>
 	<div class="header_top">
-		<a href="./user_top.php">
+		<a href="./../user_top.php">
 			<div>
 				TOP
 			</div>
 		</a>
 	</div>
 	<div class="header_search">
-		<form action="./user_top.php" method="GET">
+		<form action="./../user_top.php" method="GET">
 			<input type="text" name="search">
 			<button>検索</button>
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="./creator_top.php">
+		<a href="./../profile/manage_projects.php">
 			<div>
 				プロフィール
 			</div>
@@ -157,10 +169,7 @@ foreach ($result as $key => $record) {
 				<div>
 					<?= $issues_html_element ?>
 				</div>
-				<form action="./issue_add.php" method="GET">
-					<input type="text" name="project_id" value="<?= $project_id ?>" hidden>
-					<button>進捗を追加する</button>
-				</form>
+				<?= $add_progress ?>
 			</div>
 			<div class="comment_area">
 				user comment area
