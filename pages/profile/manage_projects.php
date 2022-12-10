@@ -10,10 +10,17 @@ $pdo = connect_to_db();
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
-$sql = "SELECT * FROM projects 
+$sql = "SELECT * FROM projects
+LEFT OUTER JOIN(
+SELECT project_id,COUNT(id) AS like_count
+FROM project_like
+GROUP BY project_id
+) AS result
+ON projects.project_id = result.project_id
 WHERE team_id in(
 SELECT team_id FROM team_members WHERE username=:username
-	)";
+)
+";
 
 $stmt = $pdo->prepare($sql);
 
@@ -52,7 +59,11 @@ foreach ($result as $key => $record) {
 				{$record["content"]}
 			</div>
 			<div class='counter'>
-				{$record["like_count"]}
+				<div class='like_button'>
+					{$record["like_count"]}
+				</div>
+			</div>
+			<div class='updated_at'>
 				{$record["updated_at"]}
 			</div>
 		</div>

@@ -28,7 +28,7 @@ $pdo = connect_to_db();
 
 
 // SQL作成&実行
-$sql = 'INSERT INTO issues (issue_id, project_id,  title, content, created_at, updated_at, like_count) VALUES (NULL, :project_id,  :title, :content, now(), now(), :like_count );';
+$sql = 'INSERT INTO issues (id, project_id,  title, content, created_at, updated_at) VALUES (NULL, :project_id,  :title, :content, now(), now());';
 
 $stmt = $pdo->prepare($sql);
 
@@ -36,7 +36,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
 $stmt->bindValue(':title', $title, PDO::PARAM_STR);
 $stmt->bindValue(':content', $content, PDO::PARAM_STR);
-$stmt->bindValue(':like_count', 0, PDO::PARAM_STR);
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {

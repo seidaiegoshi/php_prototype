@@ -18,7 +18,14 @@ $pdo = connect_to_db();
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
-$sql = "SELECT * FROM projects WHERE project_id=:project_id";
+$sql = "SELECT * FROM projects 
+LEFT OUTER JOIN(
+	SELECT project_id AS like_project, COUNT(id) AS like_count
+	FROM project_like
+	GROUP BY project_id
+) AS result_table
+ON projects.project_id = result_table.like_project
+WHERE project_id=:project_id";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
@@ -58,7 +65,11 @@ $project_abstract_html_element .= "
 				{$result["content"]}
 			</div>
 			<div class='counter'>
-				{$result["like_count"]}
+				<div class='like_button'>
+					{$result["like_count"]}
+				</div>
+			</div>
+			<div class='updated_at'>
 				{$result["updated_at"]}
 			</div>
 		</div>

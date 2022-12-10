@@ -10,10 +10,17 @@ $pdo = connect_to_db();
 if (
 	!isset($_GET["search"]) || $_GET["search"] == ""
 ) {
-	$sql = "SELECT * FROM projects";
+	$sql = "SELECT * FROM projects LEFT OUTER JOIN
+	(
+		SELECT project_id, COUNT(id) AS like_count
+		FROM project_like
+		GROUP BY project_id
+	) AS  like_result
+	ON projects.project_id = like_result.project_id";
 
 	$stmt = $pdo->prepare($sql);
 } else {
+	// 検索でやってきた場合
 	$search_word = $_GET["search"];
 	$sql = "SELECT * FROM projects 
 	WHERE title LIKE :search_word OR content LIKE :search_word";
@@ -56,7 +63,11 @@ foreach ($result as $key => $record) {
 						{$record["content"]}
 					</div>
 					<div class='counter'>
-						{$record["like_count"]}
+						<div class='like_button'>
+							{$record["like_count"]}
+						</div>
+					</div>
+					<div class='updated_at'>
 						{$record["updated_at"]}
 					</div>
 				</div>
