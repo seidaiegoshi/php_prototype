@@ -52,9 +52,15 @@ $project_abstract_html_element = "";
 $project_abstract_html_element .= "
   <div class='magazine'>
 		<div class='image'>";
-if ($result["image_url"] !== 0) {
+if ($result["image_url"] !== NULL) {
 	$project_abstract_html_element .= "	
-			<img src='./../../{$result["image_url"]}'>";
+			<img src='./..{$result["image_url"]}'>";
+} else {
+	$project_abstract_html_element .= "	
+			<div class='no_image'>
+			<p>no image</p>	
+			</div>
+		";
 }
 $project_abstract_html_element .= "
 		</div>

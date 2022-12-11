@@ -49,9 +49,15 @@ foreach ($result as $key => $record) {
   <div class='magazine'>
 		<a class='project' href='./project/project_detail.php?project_id={$record["project_id"]}'>
 				<div class='image'>";
-	if ($record["image_url"] !== 0) {
+	if ($record["image_url"] !== NULL) {
 		$project_abstract_html_element .= "	
-					<img src='./..{$record["image_url"]}'>";
+			<img src='./..{$record["image_url"]}'>";
+	} else {
+		$project_abstract_html_element .= "	
+			<div class='no_image'>
+			<p>no image</p>	
+			</div>
+		";
 	}
 	$project_abstract_html_element .= "
 					</div>
