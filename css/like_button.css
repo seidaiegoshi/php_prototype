@@ -1,0 +1,8 @@
+.like_button {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+.fa-heart {
+	color: pink;
+}

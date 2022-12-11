@@ -62,9 +62,9 @@ foreach ($result as $key => $record) {
 					<div class='content'>
 						{$record["content"]}
 					</div>
-					<div class='counter'>
-						<div class='like_button'>
-							{$record["like_count"]}
+					<div class='like_button'>
+						<div class='counter'>
+							<span class='like_icon'><i class='fa-solid fa-heart'></i></span><span>{$record["like_count"]}</span>
 						</div>
 					</div>
 					<div class='updated_at'>
@@ -87,7 +87,8 @@ foreach ($result as $key => $record) {
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>user top</title>
 	<link rel="stylesheet" type="text/css" href="./../css/style.css">
-	<!-- <link rel="stylesheet" type="text/css" href="./../css/user_top.css"> -->
+	<link rel="stylesheet" type="text/css" href="./../css/like_button.css">
+	<script src="https://kit.fontawesome.com/66d795ff86.js" crossorigin="anonymous"></script>
 </head>
 
 <header>

@@ -65,9 +65,9 @@ $project_abstract_html_element .= "
 			<div class='content'>
 				{$result["content"]}
 			</div>
-			<div class='counter'>
-				<div class='like_button'>
-					{$result["like_count"]}
+			<div class='like_button'>
+				<div class='counter'>
+					<span class='like_icon'><i class='fa-solid fa-heart'></i></span><span>{$result["like_count"]}</span>
 				</div>
 			</div>
 			<div class='updated_at'>
@@ -182,6 +182,9 @@ if ($is_member) {
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="./../../css/style.css">
 	<link rel="stylesheet" type="text/css" href="./../../css/project_detail.css">
+	<link rel="stylesheet" type="text/css" href="./../../css/like_button.css">
+	<script src="https://kit.fontawesome.com/66d795ff86.js" crossorigin="anonymous"></script>
+
 </head>
 <header>
 	<div class="header_top">
