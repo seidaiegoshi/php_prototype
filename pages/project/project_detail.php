@@ -54,7 +54,7 @@ $project_abstract_html_element .= "
 		<div class='image'>";
 if ($result["image_url"] !== NULL) {
 	$project_abstract_html_element .= "	
-			<img src='./..{$result["image_url"]}'>";
+			<img src='./../..{$result["image_url"]}'>";
 } else {
 	$project_abstract_html_element .= "	
 			<div class='no_image'>
