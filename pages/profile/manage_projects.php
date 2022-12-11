@@ -18,14 +18,14 @@ GROUP BY project_id
 ) AS result
 ON projects.project_id = result.project_id
 WHERE team_id in(
-SELECT team_id FROM team_members WHERE username=:username
+SELECT team_id FROM team_members WHERE user_id=:user_id
 )
 ";
 
 $stmt = $pdo->prepare($sql);
 
 // バインド変数を設定
-$stmt->bindValue(':username', $_SESSION["username"], PDO::PARAM_STR);
+$stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_STR);
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {
@@ -45,9 +45,15 @@ foreach ($result as $key => $record) {
   <div class='magazine'>
 	<a class='project' href='./../project/project_detail.php?project_id={$record["project_id"]}'>
 		<div class='image'>";
-	if ($record["image_url"] !== 0) {
+	if ($record["image_url"] !== NULL) {
 		$project_abstract_html_element .= "	
 			<img src='./../..{$record["image_url"]}'>";
+	} else {
+		$project_abstract_html_element .= "	
+			<div class='no_image'>
+			<p>no image</p>	
+			</div>
+		";
 	}
 	$project_abstract_html_element .= "
 		</div>
@@ -58,9 +64,9 @@ foreach ($result as $key => $record) {
 			<div class='content'>
 				{$record["content"]}
 			</div>
-			<div class='counter'>
-				<div class='like_button'>
-					{$record["like_count"]}
+			<div class='like_button'>
+				<div class='counter'>
+					<span class='like_icon'><i class='fa-solid fa-heart'></i></span><span>{$record["like_count"]}</span>
 				</div>
 			</div>
 			<div class='updated_at'>
@@ -101,6 +107,8 @@ foreach ($result as $key => $record) {
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="./../../css/style.css">
 	<link rel="stylesheet" type="text/css" href="./../../css/creator_top.css">
+	<link rel="stylesheet" type="text/css" href="./../../css/like_button.css">
+	<script src="https://kit.fontawesome.com/66d795ff86.js" crossorigin="anonymous"></script>
 </head>
 
 <header>
