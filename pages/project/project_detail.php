@@ -14,6 +14,10 @@ $project_id = $_GET["project_id"];
 
 //ログインしてるかどうか
 $is_login = is_login();
+if ($is_login == true) {
+	$user_id = $_SESSION["user_id"];
+}
+
 
 //DB接続
 $pdo = connect_to_db();
@@ -73,7 +77,20 @@ $project_abstract_html_element .= "
 			</div>
 			<div class='like_button'>
 				<div class='counter'>
-					<span class='like_icon'><i class='fa-solid fa-heart'></i></span><span>{$result["like_count"]}</span>
+					<span class='like_icon'>";
+if ($is_login == true) {
+	$project_abstract_html_element .= "
+					<a href='./project_like.php?project_id={$result["project_id"]}&user_id={$user_id}'>";
+} else {
+	$project_abstract_html_element .= "
+					<a href=''>";
+}
+$project_abstract_html_element .= "
+
+						<i class='fa-solid fa-heart'></i>
+					</a>	
+					</span>
+					<span>{$result["like_count"]}</span>
 				</div>
 			</div>
 			<div class='updated_at'>
@@ -86,7 +103,6 @@ $project_abstract_html_element .= "
 
 if ($is_login == true) {
 	// チームに自分が含まれているか確認する。
-	$user_id = $_SESSION["user_id"];
 	$sql = "SELECT COUNT(*) FROM team_members 
 WHERE team_id=:team_id AND user_id=:user_id";
 

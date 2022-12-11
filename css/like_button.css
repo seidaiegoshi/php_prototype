@@ -3,6 +3,9 @@
 	justify-content: flex-start;
 	align-items: center;
 }
+.like_icon a {
+	text-decoration: none;
+}
 .fa-heart {
-	color: pink;
+	color: rgb(251, 60, 92);
 }
