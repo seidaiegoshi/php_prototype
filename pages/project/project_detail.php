@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('./../functions/db.php');
+include('./../functions/is_login.php');
 
 // var_dump($_GET["project_id"]);
 if (
@@ -10,8 +11,9 @@ if (
 }
 
 $project_id = $_GET["project_id"];
-$username = $_SESSION["username"];
 
+//ログインしてるかどうか
+$is_login = is_login();
 
 //DB接続
 $pdo = connect_to_db();
@@ -42,7 +44,6 @@ try {
 
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$user_id = $result["user_id"];
 $team_id = $result["team_id"];
 
 
@@ -76,31 +77,35 @@ $project_abstract_html_element .= "
 	</div>
   ";
 
-// チームに自分が含まれているか確認する。
-$sql = "SELECT COUNT(*) FROM team_members 
-WHERE team_id=:team_id AND username=:username";
 
-$stmt = $pdo->prepare($sql);
-$stmt->bindValue(':team_id', $team_id, PDO::PARAM_STR);
-$stmt->bindValue(':username', $username, PDO::PARAM_STR);
+if ($is_login == true) {
+	// チームに自分が含まれているか確認する。
+	$user_id = $_SESSION["user_id"];
+	$sql = "SELECT COUNT(*) FROM team_members 
+WHERE team_id=:team_id AND user_id=:user_id";
+
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(':team_id', $team_id, PDO::PARAM_STR);
+	$stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
 
 
-// SQL実行（実行に失敗すると `sql error ...` が出力される）
-try {
-	$status = $stmt->execute();
-	// var_dump($status);
-} catch (PDOException $e) {
-	echo json_encode(["sql error" => "{$e->getMessage()}"]);
-	exit();
-}
-if ($stmt->fetchColumn() !== 0) {
-	// チームメンバーの場合
-	$is_member = true;
+	try {
+		$status = $stmt->execute();
+		// var_dump($status);
+	} catch (PDOException $e) {
+		echo json_encode(["sql error" => "{$e->getMessage()}"]);
+		exit();
+	}
+	if ($stmt->fetchColumn() !== 0) {
+		// チームメンバーの場合
+		$is_member = true;
+	} else {
+		// チームメンバーじゃない場合
+		$is_member = false;
+	}
 } else {
-	// チームメンバーじゃない場合
 	$is_member = false;
 }
-
 
 // issuesテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
 $sql = "SELECT * FROM issues WHERE project_id=:project_id ORDER BY created_at DESC ";

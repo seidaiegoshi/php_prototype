@@ -12,11 +12,11 @@ if (
 ) {
 	$sql = "SELECT * FROM projects LEFT OUTER JOIN
 	(
-		SELECT project_id, COUNT(id) AS like_count
+		SELECT project_id AS like_project_id, COUNT(id) AS like_count
 		FROM project_like
 		GROUP BY project_id
 	) AS  like_result
-	ON projects.project_id = like_result.project_id";
+	ON projects.project_id = like_result.like_project_id";
 
 	$stmt = $pdo->prepare($sql);
 } else {
