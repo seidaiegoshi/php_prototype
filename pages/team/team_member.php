@@ -20,7 +20,13 @@ $pdo = connect_to_db();
 
 
 // SQL作成&実行
-$sql = 'SELECT * FROM team_members WHERE team_id = :team_id';
+$sql = 'SELECT * FROM team_members
+LEFT OUTER JOIN (
+  SELECT user_id, username
+  FROM users
+  ) AS result
+ON team_members.user_id = result.user_id
+WHERE team_id = :team_id';
 
 $stmt = $pdo->prepare($sql);
 

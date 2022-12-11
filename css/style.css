@@ -94,52 +94,6 @@ header {
 	text-decoration: none;
 }
 
-/* カード */
-section.cards {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
-}
-
-a.card {
-	width: 300px;
-	height: 300px;
-	border: solid 1px #333;
-	margin: 16px;
-	padding: 16px;
-	position: relative;
-	text-decoration: none;
-	color: #333;
-}
-
-.card .title {
-	font-weight: bold;
-}
-
-.card .deadline {
-	font-size: 0.8rem;
-	text-align: right;
-}
-
-.card .updated_at {
-	font-size: 0.5rem;
-	position: absolute;
-	bottom: 8px;
-	left: 8px;
-}
-
-.card .like_count {
-	font-size: 0.5rem;
-	position: absolute;
-	bottom: 8px;
-	right: 8px;
-}
-.card img {
-	width: 100%;
-	max-height: 100%;
-}
-
 /* マガジンビュー */
 section {
 	width: 90%;
@@ -179,4 +133,15 @@ section {
 }
 .title {
 	font-weight: bold;
+}
+
+.magazine .no_image {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 150px;
+	background-color: #333;
+	color: #eee;
+	line-height: 100%;
 }

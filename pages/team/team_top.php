@@ -13,12 +13,12 @@ $pdo = connect_to_db();
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
 $sql = "SELECT * FROM teams 
 WHERE team_id in (
-SELECT team_id FROM team_members WHERE username=:username
+SELECT team_id FROM team_members WHERE user_id=:user_id
 	)";
 
 $stmt = $pdo->prepare($sql);
 
-$stmt->bindValue(':username', $_SESSION["username"], PDO::PARAM_STR);
+$stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_STR);
 
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）

@@ -12,3 +12,13 @@ function check_session_id()
     $_SESSION["session_id"] = session_id();
   }
 }
+
+
+function is_login()
+{
+  if (!isset($_SESSION["session_id"]) || $_SESSION["session_id"] != session_id()) {
+    return false;
+  } else {
+    return true;
+  }
+}
