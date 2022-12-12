@@ -52,3 +52,21 @@
 	margin-left: 1rem;
 	color: brown;
 }
+
+.chat_form {
+	margin-bottom: 16px;
+}
+
+.comment_line {
+	margin-bottom: 16px;
+}
+.comment {
+	margin-bottom: 8px;
+	padding: 8px;
+	background-color: #eee;
+	border-radius: 5px;
+}
+
+.datetime {
+	color: #999;
+}

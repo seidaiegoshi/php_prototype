@@ -207,6 +207,52 @@ if ($is_member) {
 	";
 }
 
+
+// issuesテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
+$sql = "SELECT * FROM project_comment WHERE project_id=:project_id ORDER BY created_at DESC ";
+
+
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
+// $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+
+
+// SQL実行（実行に失敗すると `sql error ...` が出力される）
+try {
+	$status = $stmt->execute();
+	// var_dump($status);
+} catch (PDOException $e) {
+	echo json_encode(["sql error" => "{$e->getMessage()}"]);
+	exit();
+}
+
+
+if ($is_login) {
+	$html_comment = "
+<form action='./project_comment.php' method='POST' class='chat_form'>
+	<input type='text' name='comment'>
+	<input type='hidden' name='project_id' value='{$project_id}'>
+	<input type='hidden' name='user_id' value='{$user_id}'>
+	<button>SEND</button>
+</form>
+";
+} else {
+	$html_comment = "";
+}
+
+
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($result as $key => $value) {
+	$html_comment .= "
+	<div class='comment_line'>
+	<span class='comment'>{$value["comment"]}</span>
+	<span class='datetime'>{$value["created_at"]}</span>
+	</div>
+	";
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -258,7 +304,7 @@ if ($is_member) {
 				<?= $add_progress ?>
 			</div>
 			<div class="comment_area">
-				user comment area
+				<?= $html_comment ?>
 			</div>
 		</div>
 	</section>
