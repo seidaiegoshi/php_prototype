@@ -17,3 +17,16 @@ label#upload_image_label {
 label#upload_image_label:hover {
 	background-color: skyblue;
 }
+
+.image_form {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.button_image_update {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	flex-direction: column;
+}

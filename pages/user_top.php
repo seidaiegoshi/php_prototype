@@ -1,6 +1,29 @@
 <?php
 
 include("./functions/db.php");
+session_start();
+include("./functions/is_login.php");
+
+// ログイン判定
+$is_login = is_login();
+if ($is_login) {
+	$header_profile = "
+ 		<a href='./profile/manage_projects.php'>
+			<div>
+			<span>こんにちは{$_SESSION["username"]}さん</span>
+				プロフィール
+			</div>
+		</a>
+ ";
+} else {
+	$header_profile = "
+ 		<a href='./user/login.html'>
+			<div>
+				ログイン
+			</div>
+		</a>
+ ";
+}
 
 //DB接続
 $pdo = connect_to_db();
@@ -68,11 +91,7 @@ foreach ($result as $key => $record) {
 					<div class='content'>
 						{$record["content"]}
 					</div>
-					<div class='like_button'>
-						<div class='counter'>
-							<span class='like_icon'><i class='fa-solid fa-heart'></i></span><span>{$record["like_count"]}</span>
-						</div>
-					</div>
+	
 					<div class='updated_at'>
 						{$record["updated_at"]}
 					</div>
@@ -112,11 +131,7 @@ foreach ($result as $key => $record) {
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="././profile/manage_projects.php">
-			<div>
-				プロフィール
-			</div>
-		</a>
+		<?= $header_profile ?>
 	</div>
 </header>
 

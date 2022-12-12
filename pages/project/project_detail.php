@@ -12,11 +12,56 @@ if (
 
 $project_id = $_GET["project_id"];
 
-//ログインしてるかどうか
-$is_login = is_login();
 
 //DB接続
 $pdo = connect_to_db();
+
+
+//ログインしてるかどうか
+$is_login = is_login();
+if ($is_login) {
+	$user_id = $_SESSION["user_id"];
+	$header_profile = "
+ 		<a href='./../profile/manage_projects.php'>
+			<div>
+				<span>こんにちは{$_SESSION["username"]}さん</span>
+				プロフィール
+			</div>
+		</a>
+ ";
+	// すでにlikeしているか確認
+	$sql = 'SELECT COUNT(*) FROM project_like
+WHERE user_id = :user_id AND project_id = :project_id';
+
+	// バインド
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+	$stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
+
+	// sql実行
+	try {
+		$status = $stmt->execute();
+	} catch (PDOException $e) {
+		echo json_encode(["sql error" => "{$e->getMessage()}"]);
+		exit();
+	}
+	// 参照
+	$like_count = $stmt->fetchColumn();
+	// 登録または削除
+	if ($like_count !== 0) {
+		// like登録してたら、赤いライクボタン
+		$is_liked = "liked";
+	}
+} else {
+	$header_profile = "
+ 		<a href='./../user/login.html'>
+			<div>
+				ログイン
+			</div>
+		</a>
+ ";
+}
+
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
@@ -72,8 +117,27 @@ $project_abstract_html_element .= "
 				{$result["content"]}
 			</div>
 			<div class='like_button'>
-				<div class='counter'>
-					<span class='like_icon'><i class='fa-solid fa-heart'></i></span><span>{$result["like_count"]}</span>
+				<div class='counter'>";
+if (!isset($is_liked)) {
+	$project_abstract_html_element .= "
+					<span class='like_icon'>";
+} else {
+	$project_abstract_html_element .= "
+					<span class='like_icon {$is_liked}'>";
+}
+if ($is_login == true) {
+	$project_abstract_html_element .= "
+					<a href='./project_like.php?project_id={$result["project_id"]}&user_id={$user_id}'>";
+} else {
+	$project_abstract_html_element .= "
+					<a href=''>";
+}
+$project_abstract_html_element .= "
+
+						<i class='fa-solid fa-heart'></i>
+					</a>	
+					</span>
+					<span>{$result["like_count"]}</span>
 				</div>
 			</div>
 			<div class='updated_at'>
@@ -86,7 +150,6 @@ $project_abstract_html_element .= "
 
 if ($is_login == true) {
 	// チームに自分が含まれているか確認する。
-	$user_id = $_SESSION["user_id"];
 	$sql = "SELECT COUNT(*) FROM team_members 
 WHERE team_id=:team_id AND user_id=:user_id";
 
@@ -176,6 +239,93 @@ if ($is_member) {
 	";
 }
 
+// 表示しているプロジェクトのチームメンバー一覧を取得
+$sql = "SELECT * FROM team_members
+WHERE team_id IN(
+    SELECT team_id
+    FROM projects
+    WHERE project_id=:project_id
+    )
+";
+
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
+
+
+// SQL実行（実行に失敗すると `sql error ...` が出力される）
+try {
+	$status = $stmt->execute();
+	// var_dump($status);
+} catch (PDOException $e) {
+	echo json_encode(["sql error" => "{$e->getMessage()}"]);
+	exit();
+}
+$team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// メンバーを保存する配列
+$members = array();
+foreach ($team_members as $key => $value) {
+	$members[] = $value["user_id"]; //配列にメンバーのidを追加
+}
+
+// コメント取得SQL
+$sql = "SELECT * FROM project_comment 
+LEFT OUTER JOIN(
+	SELECT user_id,username FROM users
+) AS result
+ON project_comment.user_id = result.user_id
+WHERE project_id=:project_id ORDER BY created_at DESC ";
+
+
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
+// $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+
+
+// SQL実行（実行に失敗すると `sql error ...` が出力される）
+try {
+	$status = $stmt->execute();
+	// var_dump($status);
+} catch (PDOException $e) {
+	echo json_encode(["sql error" => "{$e->getMessage()}"]);
+	exit();
+}
+
+
+// ログインしたたらコメントできる。
+if ($is_login) {
+	$html_comment = "
+<form action='./project_comment.php' method='POST' class='chat_form'>
+	<input type='text' name='comment'>
+	<input type='hidden' name='project_id' value='{$project_id}'>
+	<input type='hidden' name='user_id' value='{$user_id}'>
+	<button>SEND</button>
+</form>
+";
+} else {
+	$html_comment = "";
+}
+
+
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// コメントを表示
+foreach ($result as $key => $value) {
+	$html_comment .= "
+	<div class='comment_line'>
+	";
+	if (in_array($value["user_id"], $members)) {
+		$html_comment .= "<span class='mark'><i class='fa-solid fa-industry'></i></span>";
+	}
+	$html_comment .= "
+	<span class='username'>{$value["username"]}</span>
+	<span class='comment'>{$value["comment"]}</span>
+	<span class='datetime'>{$value["created_at"]}</span>
+	</div>
+	";
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -207,11 +357,7 @@ if ($is_member) {
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="./../profile/manage_projects.php">
-			<div>
-				プロフィール
-			</div>
-		</a>
+		<?= $header_profile ?>
 	</div>
 </header>
 
@@ -225,17 +371,20 @@ if ($is_member) {
 		<h2>開発の進捗</h2>
 		<div class="cheer_area">
 			<div class="milestone_area">
+				<?= $add_progress ?>
 				<div>
 					<?= $issues_html_element ?>
 				</div>
-				<?= $add_progress ?>
 			</div>
 			<div class="comment_area">
-				user comment area
+				<?= $html_comment ?>
 			</div>
 		</div>
 	</section>
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		$(".liked .fa-heart").css("color", "red");
+	</script>
 </body>
 
 </html>

@@ -1,16 +1,21 @@
 .cheer_area {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	margin-top: 8px;
 }
 
 .milestone_area {
-	width: 50%;
+	width: 48%;
+	display: inline-block;
+	vertical-align: top;
+}
+.milestone_area button {
+	padding: 8px;
 }
 
 .comment_area {
-	width: 50%;
+	width: 48%;
 }
 
 .title {
@@ -23,6 +28,7 @@
 }
 
 .timeline_content {
+	padding-top: 16px;
 	padding-bottom: 16px;
 	padding-left: 20px;
 	margin-left: 20px;
@@ -39,7 +45,7 @@
 	background-color: #ccc;
 	position: absolute;
 	left: -0.5rem;
-	top: 0rem;
+	top: 1.2rem;
 }
 
 .edit {
@@ -51,4 +57,37 @@
 .delete a {
 	margin-left: 1rem;
 	color: brown;
+}
+
+.chat_form {
+	margin-bottom: 16px;
+	padding-left: 2rem;
+}
+.chat_form input {
+	padding: 8px;
+	width: 15rem;
+}
+.chat_form button {
+	padding: 8px;
+}
+
+.comment_line {
+	margin-bottom: 16px;
+	padding-left: 2rem;
+	position: relative;
+}
+.comment {
+	margin-bottom: 8px;
+	padding: 8px;
+	background-color: #eee;
+	border-radius: 5px;
+}
+
+.datetime {
+	color: #999;
+}
+.mark {
+	color: red;
+	position: absolute;
+	left: 0.5rem;
 }

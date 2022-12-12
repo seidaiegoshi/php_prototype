@@ -8,21 +8,21 @@ var_dump($_POST);
 
 if (
   !isset($_POST["team_id"]) || $_POST["team_id"] == "" ||
-  !isset($_POST["username"]) || $_POST["username"] == ""
+  !isset($_POST["user_id"]) || $_POST["user_id"] == ""
 ) {
   exit("ParamError");
 }
 
-$username = $_POST['username'];
+$user_id = $_POST['user_id'];
 $team_id = $_POST['team_id'];
 
 $pdo = connect_to_db();
 
 $sql = 'DELETE FROM team_members 
-WHERE username=:username AND team_id=:team_id';
+WHERE user_id=:user_id AND team_id=:team_id';
 
 $stmt = $pdo->prepare($sql);
-$stmt->bindValue(':username', $username, PDO::PARAM_STR);
+$stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
 $stmt->bindValue(':team_id', $team_id, PDO::PARAM_STR);
 
 try {

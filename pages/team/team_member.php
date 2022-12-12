@@ -51,7 +51,7 @@ foreach ($result as $key => $value) {
       <div class='name'>{$value["username"]}</div>
       <form action='./team_member_delete.php' method='POST'>
         <input type='hidden' name='team_id' value='{$team_id}'>
-        <input type='hidden' name='username' value='{$value["username"]}'>
+        <input type='hidden' name='user_id' value='{$value["user_id"]}'>
         <button>delete</button>
       </form>
       </div>
