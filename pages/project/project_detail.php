@@ -14,8 +14,23 @@ $project_id = $_GET["project_id"];
 
 //ログインしてるかどうか
 $is_login = is_login();
-if ($is_login == true) {
+if ($is_login) {
 	$user_id = $_SESSION["user_id"];
+	$header_profile = "
+ 		<a href='./../profile/manage_projects.php'>
+			<div>
+				プロフィール
+			</div>
+		</a>
+ ";
+} else {
+	$header_profile = "
+ 		<a href='./../user/login.html'>
+			<div>
+				ログイン
+			</div>
+		</a>
+ ";
 }
 
 
@@ -223,11 +238,7 @@ if ($is_member) {
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="./../profile/manage_projects.php">
-			<div>
-				プロフィール
-			</div>
-		</a>
+		<?= $header_profile ?>
 	</div>
 </header>
 

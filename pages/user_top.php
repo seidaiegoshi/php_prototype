@@ -1,6 +1,28 @@
 <?php
 
 include("./functions/db.php");
+session_start();
+include("./functions/is_login.php");
+
+// ログイン判定
+$is_login = is_login();
+if ($is_login) {
+	$header_profile = "
+ 		<a href='./profile/manage_projects.php'>
+			<div>
+				プロフィール
+			</div>
+		</a>
+ ";
+} else {
+	$header_profile = "
+ 		<a href='./user/login.html'>
+			<div>
+				ログイン
+			</div>
+		</a>
+ ";
+}
 
 //DB接続
 $pdo = connect_to_db();
@@ -112,11 +134,7 @@ foreach ($result as $key => $record) {
 		</form>
 	</div>
 	<div class="header_profile">
-		<a href="././profile/manage_projects.php">
-			<div>
-				プロフィール
-			</div>
-		</a>
+		<?= $header_profile ?>
 	</div>
 </header>
 
