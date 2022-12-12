@@ -47,13 +47,13 @@ $team_id =  $pdo->lastInsertId();
 // チームメンバーとして自分を追加する。
 // 新規作成のチームなので、すでにチームメンバーか確認する必要はない。
 // SQL作成&実行
-$sql = 'INSERT INTO team_members (id, team_id, username) VALUES (NULL, :team_id, :username);';
+$sql = 'INSERT INTO team_members (id, team_id, user_id) VALUES (NULL, :team_id, :user_id);';
 
 $stmt = $pdo->prepare($sql);
 
 // バインド変数を設定
 $stmt->bindValue(':team_id', $team_id, PDO::PARAM_STR);
-$stmt->bindValue(':username', $_SESSION["username"], PDO::PARAM_STR);
+$stmt->bindValue(':user_id', $_SESSION["user_id"], PDO::PARAM_STR);
 
 // SQL実行（実行に失敗すると `sql error ...` が出力される）
 try {
