@@ -18,6 +18,7 @@ header {
 h1 {
 	margin: 8px;
 	margin-bottom: 16px;
+	margin-top: 32px;
 }
 .header_top {
 	height: 100%;
