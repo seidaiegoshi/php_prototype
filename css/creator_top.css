@@ -34,3 +34,22 @@
 	text-decoration: underline;
 	color: red;
 }
+
+.menu {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 16px 0px;
+}
+.menu a {
+	padding: 8px;
+	margin: 8px;
+	text-decoration: none;
+	color: #fff;
+	background-color: #333;
+	border-radius: 5px;
+	border: solid 2px #eee;
+}
+.menu a:hover {
+	background-color: #666;
+}

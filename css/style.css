@@ -15,6 +15,10 @@ header {
 	text-decoration: none;
 }
 
+h1 {
+	margin: 8px;
+	margin-bottom: 16px;
+}
 .header_top {
 	height: 100%;
 	width: 50px;
@@ -105,7 +109,7 @@ section {
 
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
 	margin-bottom: 16px;
 }
 .magazine a.project {
@@ -113,7 +117,7 @@ section {
 	color: #111;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
 	padding: 8px;
 	border: solid 1px #999;
 	border-radius: 5px;

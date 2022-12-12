@@ -10,6 +10,7 @@ if ($is_login) {
 	$header_profile = "
  		<a href='./profile/manage_projects.php'>
 			<div>
+			<span>こんにちは{$_SESSION["username"]}さん</span>
 				プロフィール
 			</div>
 		</a>
@@ -90,11 +91,7 @@ foreach ($result as $key => $record) {
 					<div class='content'>
 						{$record["content"]}
 					</div>
-					<div class='like_button'>
-						<div class='counter'>
-							<span class='like_icon'><i class='fa-solid fa-heart'></i></span><span>{$record["like_count"]}</span>
-						</div>
-					</div>
+	
 					<div class='updated_at'>
 						{$record["updated_at"]}
 					</div>

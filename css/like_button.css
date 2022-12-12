@@ -7,5 +7,6 @@
 	text-decoration: none;
 }
 .fa-heart {
-	color: rgb(251, 60, 92);
+	/* color: rgb(251, 60, 92); */
+	color: gray;
 }

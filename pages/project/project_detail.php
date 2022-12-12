@@ -12,6 +12,11 @@ if (
 
 $project_id = $_GET["project_id"];
 
+
+//DB接続
+$pdo = connect_to_db();
+
+
 //ログインしてるかどうか
 $is_login = is_login();
 if ($is_login) {
@@ -19,10 +24,34 @@ if ($is_login) {
 	$header_profile = "
  		<a href='./../profile/manage_projects.php'>
 			<div>
+				<span>こんにちは{$_SESSION["username"]}さん</span>
 				プロフィール
 			</div>
 		</a>
  ";
+	// すでにlikeしているか確認
+	$sql = 'SELECT COUNT(*) FROM project_like
+WHERE user_id = :user_id AND project_id = :project_id';
+
+	// バインド
+	$stmt = $pdo->prepare($sql);
+	$stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+	$stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
+
+	// sql実行
+	try {
+		$status = $stmt->execute();
+	} catch (PDOException $e) {
+		echo json_encode(["sql error" => "{$e->getMessage()}"]);
+		exit();
+	}
+	// 参照
+	$like_count = $stmt->fetchColumn();
+	// 登録または削除
+	if ($like_count !== 0) {
+		// like登録してたら、赤いライクボタン
+		$is_liked = "liked";
+	}
 } else {
 	$header_profile = "
  		<a href='./../user/login.html'>
@@ -33,9 +62,6 @@ if ($is_login) {
  ";
 }
 
-
-//DB接続
-$pdo = connect_to_db();
 
 // SQL作成&実行
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
@@ -91,8 +117,14 @@ $project_abstract_html_element .= "
 				{$result["content"]}
 			</div>
 			<div class='like_button'>
-				<div class='counter'>
+				<div class='counter'>";
+if (!isset($is_liked)) {
+	$project_abstract_html_element .= "
 					<span class='like_icon'>";
+} else {
+	$project_abstract_html_element .= "
+					<span class='like_icon {$is_liked}'>";
+}
 if ($is_login == true) {
 	$project_abstract_html_element .= "
 					<a href='./project_like.php?project_id={$result["project_id"]}&user_id={$user_id}'>";
@@ -349,7 +381,10 @@ foreach ($result as $key => $value) {
 			</div>
 		</div>
 	</section>
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		$(".liked .fa-heart").css("color", "red");
+	</script>
 </body>
 
 </html>
