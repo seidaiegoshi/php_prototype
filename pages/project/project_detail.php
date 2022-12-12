@@ -209,7 +209,12 @@ if ($is_member) {
 
 
 // issuesテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
-$sql = "SELECT * FROM project_comment WHERE project_id=:project_id ORDER BY created_at DESC ";
+$sql = "SELECT * FROM project_comment 
+LEFT OUTER JOIN(
+	SELECT user_id,username FROM users
+) AS result
+ON project_comment.user_id = result.user_id
+WHERE project_id=:project_id ORDER BY created_at DESC ";
 
 
 $stmt = $pdo->prepare($sql);
@@ -246,6 +251,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $key => $value) {
 	$html_comment .= "
 	<div class='comment_line'>
+	<span class='username'>{$value["username"]}</span>
 	<span class='comment'>{$value["comment"]}</span>
 	<span class='datetime'>{$value["created_at"]}</span>
 	</div>
@@ -298,10 +304,10 @@ foreach ($result as $key => $value) {
 		<h2>開発の進捗</h2>
 		<div class="cheer_area">
 			<div class="milestone_area">
+				<?= $add_progress ?>
 				<div>
 					<?= $issues_html_element ?>
 				</div>
-				<?= $add_progress ?>
 			</div>
 			<div class="comment_area">
 				<?= $html_comment ?>
