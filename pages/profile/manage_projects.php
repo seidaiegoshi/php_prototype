@@ -12,11 +12,11 @@ $pdo = connect_to_db();
 // プロジェクトテーブルのプロジェクトIDがGETで取得したIDと一致するレコードを取得
 $sql = "SELECT * FROM projects
 LEFT OUTER JOIN(
-SELECT project_id,COUNT(id) AS like_count
+SELECT project_id AS like_project_id,COUNT(id) AS like_count
 FROM project_like
 GROUP BY project_id
 ) AS result
-ON projects.project_id = result.project_id
+ON projects.project_id = result.like_project_id
 WHERE team_id in(
 SELECT team_id FROM team_members WHERE user_id=:user_id
 )

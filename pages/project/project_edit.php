@@ -56,15 +56,21 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 <body>
-  <form action="./../project_update.php" method="POST" enctype="multipart/form-data">
+  <form action="./project_update.php" method="POST" enctype="multipart/form-data">
     <fieldset>
       <legend>プロジェクトの編集</legend>
-      <input type="hidden" name="old_image_url" value="<?= $result["image_url"] ?>">
-      <input type="hidden" name="project_id" value="<?= $project_id ?>">
-      <img id="project_image" src="<?= $result["image_url"] ?>" alt="project image">
-      <label for="upload_image" id="upload_image_label">写真を変更</label>
-      <input type="file" name="image" id="upload_image">
-      <button type="button" id="return_image">もとに戻す</button>
+      <div class="image_form">
+        <div>
+          <input type="hidden" name="old_image_url" value="<?= $result["image_url"] ?>">
+          <input type="hidden" name="project_id" value="<?= $project_id ?>">
+          <img id="project_image" src="<?= "./../.." . $result["image_url"] ?>" alt="project image">
+        </div>
+        <div class='button_image_update'>
+          <label for="upload_image" id="upload_image_label">写真を変更</label>
+          <input type="file" name="image" id="upload_image">
+          <button type="button" id="return_image">もとに戻す</button>
+        </div>
+      </div>
       <div>product name:
         <input type="text" name="title" value="<?= $result["title"] ?>" />
       </div>
@@ -98,7 +104,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     $("#return_image").on("click", () => {
       // もとに戻すで初期化
-      $("#project_image").attr("src", "<?= $result["image_url"] ?>");
+      $("#project_image").attr("src", "<?= "./../.." . $result["image_url"] ?>");
       $("#upload_image").val("");
     })
   </script>
