@@ -207,8 +207,36 @@ if ($is_member) {
 	";
 }
 
+// 表示しているプロジェクトのチームメンバー一覧を取得
+$sql = "SELECT * FROM team_members
+WHERE team_id IN(
+    SELECT team_id
+    FROM projects
+    WHERE project_id=:project_id
+    )
+";
 
-// issuesテーブルのプロジェクトIDがGETで取得したものと一致するやつを取得。
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':project_id', $project_id, PDO::PARAM_STR);
+
+
+// SQL実行（実行に失敗すると `sql error ...` が出力される）
+try {
+	$status = $stmt->execute();
+	// var_dump($status);
+} catch (PDOException $e) {
+	echo json_encode(["sql error" => "{$e->getMessage()}"]);
+	exit();
+}
+$team_members = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// メンバーを保存する配列
+$members = array();
+foreach ($team_members as $key => $value) {
+	$members[] = $value["user_id"]; //配列にメンバーのidを追加
+}
+
+// コメント取得SQL
 $sql = "SELECT * FROM project_comment 
 LEFT OUTER JOIN(
 	SELECT user_id,username FROM users
@@ -232,6 +260,7 @@ try {
 }
 
 
+// ログインしたたらコメントできる。
 if ($is_login) {
 	$html_comment = "
 <form action='./project_comment.php' method='POST' class='chat_form'>
@@ -247,16 +276,22 @@ if ($is_login) {
 
 
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+// コメントを表示
 foreach ($result as $key => $value) {
 	$html_comment .= "
 	<div class='comment_line'>
+	";
+	if (in_array($value["user_id"], $members)) {
+		$html_comment .= "<span class='mark'><i class='fa-solid fa-industry'></i></span>";
+	}
+	$html_comment .= "
 	<span class='username'>{$value["username"]}</span>
 	<span class='comment'>{$value["comment"]}</span>
 	<span class='datetime'>{$value["created_at"]}</span>
 	</div>
 	";
 }
+
 
 
 ?>

@@ -28,7 +28,7 @@ $pdo = connect_to_db();
 
 
 // SQL作成&実行
-$sql = 'INSERT INTO issues (id, project_id,  title, content, created_at, updated_at) VALUES (NULL, :project_id,  :title, :content, now(), now());';
+$sql = 'INSERT INTO issues (issue_id, project_id,  title, content, created_at, updated_at) VALUES (NULL, :project_id,  :title, :content, now(), now());';
 
 $stmt = $pdo->prepare($sql);
 

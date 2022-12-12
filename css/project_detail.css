@@ -10,6 +10,9 @@
 	display: inline-block;
 	vertical-align: top;
 }
+.milestone_area button {
+	padding: 8px;
+}
 
 .comment_area {
 	width: 48%;
@@ -58,10 +61,20 @@
 
 .chat_form {
 	margin-bottom: 16px;
+	padding-left: 2rem;
+}
+.chat_form input {
+	padding: 8px;
+	width: 15rem;
+}
+.chat_form button {
+	padding: 8px;
 }
 
 .comment_line {
 	margin-bottom: 16px;
+	padding-left: 2rem;
+	position: relative;
 }
 .comment {
 	margin-bottom: 8px;
@@ -72,4 +85,9 @@
 
 .datetime {
 	color: #999;
+}
+.mark {
+	color: red;
+	position: absolute;
+	left: 0.5rem;
 }
