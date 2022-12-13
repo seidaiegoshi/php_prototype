@@ -1,0 +1,12 @@
+.memu > div {
+	display: block;
+	padding: 16px;
+}
+.memu a {
+	border: solid 2px #eee;
+	border-radius: 5px;
+	background-color: #333;
+	padding: 8px;
+	text-decoration: none;
+	color: white;
+}
